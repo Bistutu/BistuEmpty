@@ -1,20 +1,148 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
-
+    tools:context=".MainActivity"
+    android:orientation="vertical">
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/tb1"
-        android:background="@color/purple_500"
+        android:background="#ff6699CC"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
         app:popupTheme="@style/PopupOverlay"
         tools:ignore="MissingConstraints">
-
     </androidx.appcompat.widget.Toolbar>
+<!--校区选择按钮组-->
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_margin="10dp"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
+    <TextView
+        android:gravity="center_vertical"
+        android:textSize="16sp"
+        android:textColor="@color/black"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:text="校区："></TextView>
+    <Spinner
+        android:id="@+id/spinner1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:entries="@array/xq"
+        />
+<!--    以下为暂时抛弃的校区选择写法-->
+    <!--<RadioGroup
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
 
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="健翔桥"></RadioButton>
+
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="小营"></RadioButton>
+
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="清河"></RadioButton>
+    </RadioGroup>-->
+</LinearLayout>
+<!--    日期选择器-->
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_margin="10dp"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
+    <TextView
+        android:gravity="center_vertical"
+        android:textSize="16sp"
+        android:textColor="@color/black"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:text="日期："></TextView>
+    <RadioGroup
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="今天"></RadioButton>
+
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="明天"></RadioButton>
+
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="后天"></RadioButton>
+    </RadioGroup>
+</LinearLayout>
+<!--    时段-->
+    <LinearLayout
+        android:layout_margin="10dp"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:textSize="16sp"
+            android:textColor="@color/black"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical|center"
+            android:text="时段："
+            ></TextView>
+        <CheckBox
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="全天"
+            ></CheckBox>
+        <CheckBox
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="上午"
+            ></CheckBox>
+        <CheckBox
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="下午"
+            ></CheckBox>
+        <CheckBox
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="晚上"
+            ></CheckBox>
+    </LinearLayout>
+
+<!--最后的查询按钮-->
+    <Button
+        android:id="@+id/btSearch"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="查询空教室"></Button>
+<!--    以下空教室显示，待实现，建议用卡片式 Recycle-->
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="left"
+            android:textSize="20sp"
+            android:text="空教室将在这里显示..."></TextView>
+    </ScrollView>
+</LinearLayout>
