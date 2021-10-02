@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/line1"
+        android:icon="@drawable/ic_baseline_5g_24"
+        android:title="one"
+        app:showAsAction="always"></item>
+    <item
+        android:id="@+id/line2"
+        android:icon="@drawable/ic_baseline_library_add_check_24"
+        android:title="one"
+        app:showAsAction="never"></item>
+    <item
+        android:id="@+id/line3"
+        android:icon="@drawable/ic_baseline_5g_24"
+        android:title="one"
+        app:showAsAction="never"></item>
+
+</menu>
