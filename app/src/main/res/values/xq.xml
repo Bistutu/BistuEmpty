@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="xq">
-        <item >  小营</item>
-        <item>  健翔桥</item>
-        <item>  清河</item>
+        <item >小营校区</item>
+        <item>  健翔桥校区</item>
+        <item>  清河校区</item>
     </string-array>
 </resources>

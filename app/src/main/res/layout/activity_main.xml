@@ -29,33 +29,18 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:text="校区："></TextView>
-    <Spinner
-        android:id="@+id/spinner1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:entries="@array/xq"
-        />
-<!--    以下为暂时抛弃的校区选择写法-->
-    <!--<RadioGroup
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
 
-        <RadioButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="健翔桥"></RadioButton>
+    <Button
+        android:id="@+id/xq_selector"
+        android:background="@drawable/xq_button"
+        android:padding="5dp"
+        android:layout_width="100dp"
+        android:gravity="center"
+        android:layout_height="30dp"
+        android:text="小营校区"
+        android:drawableRight="@drawable/ic_baseline_keyboard_arrow_down_24">
+    </Button>
 
-        <RadioButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="小营"></RadioButton>
-
-        <RadioButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="清河"></RadioButton>
-    </RadioGroup>-->
 </LinearLayout>
 <!--    日期选择器-->
 <LinearLayout
@@ -72,21 +57,25 @@
         android:layout_height="match_parent"
         android:text="日期："></TextView>
     <RadioGroup
+        android:id="@+id/rg"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
         <RadioButton
+            android:id="@+id/today"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="今天"></RadioButton>
 
         <RadioButton
+            android:id="@+id/tomorrow"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="明天"></RadioButton>
 
         <RadioButton
+            android:id="@+id/afterTomorrow"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="后天"></RadioButton>
@@ -107,21 +96,25 @@
             android:text="时段："
             ></TextView>
         <CheckBox
+            android:id="@+id/allDay"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="全天"
             ></CheckBox>
         <CheckBox
+            android:id="@+id/morning"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="上午"
             ></CheckBox>
         <CheckBox
+            android:id="@+id/afternoon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="下午"
             ></CheckBox>
         <CheckBox
+            android:id="@+id/night"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="晚上"
@@ -133,16 +126,28 @@
         android:id="@+id/btSearch"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@drawable/button_selected"
+        android:layout_margin="10dp"
+        android:textSize="18sp"
+        android:textColor="@color/white"
         android:text="查询空教室"></Button>
-<!--    以下空教室显示，待实现，建议用卡片式 Recycle-->
-    <ScrollView
+    <!--废弃按钮-->
+<!--    <Button
+        android:id="@+id/ggg"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-        <TextView
+        android:layout_height="wrap_content"
+        android:text="1111"
+        ></Button>-->
+<!--    以下空教室显示，待实现，建议用卡片式 Recycle-->
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerView"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="left"
-            android:textSize="20sp"
-            android:text="空教室将在这里显示..."></TextView>
-    </ScrollView>
+            android:layout_height="match_parent"
+            >
+
+        </androidx.recyclerview.widget.RecyclerView>
+
+
+
 </LinearLayout>
