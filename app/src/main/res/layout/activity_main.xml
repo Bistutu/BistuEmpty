@@ -139,12 +139,12 @@
     android:textSize="14dp"
     ></TextView>
 <!--<include layout="@layout/recycler_view_model"></include>-->
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
     </androidx.recyclerview.widget.RecyclerView>
-
 
 </LinearLayout>

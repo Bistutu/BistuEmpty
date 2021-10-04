@@ -226,7 +226,7 @@ class MainActivity : AppCompatActivity() {
                     holder.cardtv2.text=empty.em2
                     holder.cardtv3.text=empty.em3
                     holder.cardtv4.text=empty.em4
-                    if(holder.cardtv2.text=="block") {
+                    if(holder.cardtv1.text=="block") {
                         holder.mc1.setBackgroundResource(R.color.split)
                         holder.mc2.visibility=View.GONE
                         holder.mc3.visibility=View.GONE
@@ -237,7 +237,7 @@ class MainActivity : AppCompatActivity() {
             }
 
             //Gson
-            val list=mutableListOf(empty_list("阶梯教室","block","",""))
+            val list=mutableListOf(empty_list("阶梯教室","","",""))
             val gson=Gson()
             val typeOf=object : TypeToken<List<empty_list>>(){}.type
             val emptyList_all= gson.fromJson<List<empty_list>>(responseData,typeOf)
