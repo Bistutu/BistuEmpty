@@ -1,9 +1,10 @@
 package com.thinkstu.myapplication
 import android.content.Context
+import android.content.Intent
+import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.*
-import android.widget.ListAdapter
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -13,7 +14,6 @@ import kotlinx.android.synthetic.main.activity_main.*
 
 import com.qmuiteam.qmui.widget.dialog.QMUIDialog.MenuDialogBuilder
 import com.qmuiteam.qmui.widget.dialog.QMUITipDialog
-import kotlinx.android.synthetic.main.recycler_view_model.*
 import kotlinx.android.synthetic.main.recycler_view_model.view.*
 import okhttp3.OkHttpClient
 import okhttp3.Request
@@ -21,121 +21,45 @@ import java.lang.Exception
 import java.util.*
 import kotlin.collections.ArrayList
 import kotlin.concurrent.thread
-import kotlin.math.log
+import com.qmuiteam.qmui.widget.dialog.QMUIDialog.MessageDialogBuilder
+
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setSupportActionBar(tb1)
-        var xq=1;
+        var xq=1
         var time=0;
         val items = arrayOf("小营校区", "健翔桥校区", "清河校区")
         //初始化SharedPreferences
         val editor = getPreferences(MODE_PRIVATE).edit()
         val prefs = getPreferences(MODE_PRIVATE)
-//获取日期
+        //获取日期
         val gregorianCalendar=GregorianCalendar()
         var month:Int=gregorianCalendar.get(Calendar.MONTH)+1
-        var day:Int=gregorianCalendar.get(Calendar.DAY_OF_MONTH)
+        var day:Int=gregorianCalendar.get(Calendar.DAY_OF_MONTH)+4
 
         //初始化校区选择器
         val xq_num=prefs.getInt("campus", 1)
-        xq_selector.text = items[prefs.getInt("campus", 1)]
         xq=xq_num+1
+        xq_selector.text = items[prefs.getInt("campus", 1)]
         //默认选择allDay与today
-        today.isChecked = true
-        allDay.isChecked = true
-        morning.isChecked = true
-        afternoon.isChecked = true
-        night.isChecked = true
-
+        defaultSelected()
         //四个CheckButton的选择事件,复用了之前写的javafx代码
-        allDay.setOnClickListener {
-            if (allDay.isChecked) {
-                morning.isChecked = true
-                afternoon.isChecked = true
-                night.isChecked = true
-            } else {
-                morning.isChecked = false
-                afternoon.isChecked = false
-                night.isChecked = false
-            }
-            time=0
-        }
-        morning.setOnClickListener {
-            if (morning.isChecked && afternoon.isChecked && night.isChecked) allDay.isChecked =
-                true else if (!morning.isChecked && afternoon.isChecked && night.isChecked
-                && allDay.isChecked
-            ) {
-                morning.isChecked = true
-                allDay.isChecked = false
-                afternoon.isChecked = false
-                night.isChecked = false
-            } else if (morning.isChecked) {
-                afternoon.isChecked = false
-                night.isChecked = false
-            } else if (!morning.isChecked) {
-                allDay.isChecked = false
-                afternoon.isChecked = false
-                night.isChecked = false
-            } else allDay.isChecked = false
-            time=1
-        }
-        afternoon.setOnClickListener {
-            if (morning.isChecked && afternoon.isChecked && night.isChecked) allDay.isChecked =
-                true else if (!afternoon.isChecked && morning.isChecked && night.isChecked
-                && allDay.isChecked
-            ) {
-                afternoon.isChecked = true
-                allDay.isChecked = false
-                morning.isChecked = false
-                night.isChecked = false
-            } else if (afternoon.isChecked) {
-                morning.isChecked = false
-                night.isChecked = false
-            } else if (!afternoon.isChecked) {
-                allDay.isChecked = false
-                morning.isChecked = false
-                night.isChecked = false
-            } else allDay.isChecked = false
-            time=2
-        }
-        night.setOnClickListener {
-            if (morning.isChecked && afternoon.isChecked && night.isChecked) allDay.isChecked =
-                true else if (!night.isChecked && afternoon.isChecked && morning.isChecked
-                && allDay.isChecked
-            ) {
-                night.isChecked = true
-                morning.isChecked = false
-                afternoon.isChecked = false
-                allDay.isChecked = false
-            } else if (night.isChecked) {
-                morning.isChecked = false
-                afternoon.isChecked = false
-            } else if (!night.isChecked) {
-                allDay.isChecked = false
-                afternoon.isChecked = false
-                morning.isChecked = false
-            } else allDay.isChecked = false
-            time=3
-        }
-
+        time = fourCheckAction(time)
         //校区选择器
-        xq_selector.setOnClickListener {
-
-            MenuDialogBuilder(this)
-                .addItems(items) { dialog, which ->
-                    Toast.makeText(this, "你选择了 " + items[which], Toast.LENGTH_SHORT).show()
-                    xq_selector.text = items[which]
-                    xq=which+1
-                    editor.putInt("campus", which)
-                    editor.apply()
-                    dialog.dismiss()
-                }
-                .show()
+        xq = xq_selector(items, xq, editor)
+//日期选择器
+        today.setOnClickListener {
+            day=gregorianCalendar.get(Calendar.DAY_OF_MONTH)+4
         }
-
+        tomorrow.setOnClickListener {
+            day=gregorianCalendar.get(Calendar.DAY_OF_MONTH)+5
+        }
+        afterTomorrow.setOnClickListener {
+            day=gregorianCalendar.get(Calendar.DAY_OF_MONTH)+6
+        }
         //查询按钮,1.5s
         btSearch.setOnClickListener {
             //Start
@@ -153,7 +77,7 @@ class MainActivity : AppCompatActivity() {
             //先发送网络请求、线程
             thread {
                 try {
-                    var keyUrl:String=(((""+time)+xq)+month)+"11"
+                    var keyUrl:String=(((""+time)+xq)+month)+day
                     var url_formal:String="https://bistutu.github.io/demoEmpty/"+keyUrl+".json"
                     val okhttp = OkHttpClient()
                     val request = Request.Builder()
@@ -168,7 +92,13 @@ class MainActivity : AppCompatActivity() {
                         }, 500)
                     val responseData = response.body()?.string()
                     if (responseData != null) {
-                        date.text="你所查询的日期为："+month+"月"+"11"+"日"
+                        when(time){
+                            0->date.text="你所查询的日期为："+month+"月"+day+"日全天"
+                            1->date.text="你所查询的日期为："+month+"月"+day+"日上午"
+                            2->date.text="你所查询的日期为："+month+"月"+day+"日下午"
+                            3->date.text="你所查询的日期为："+month+"月"+day+"日晚上"
+                        }
+
                         showSuccess(responseData)
                     }
 
@@ -194,50 +124,155 @@ class MainActivity : AppCompatActivity() {
 
     }
 
+    private fun xq_selector(
+        items: Array<String>,
+        xq: Int,
+        editor: SharedPreferences.Editor
+    ): Int {
+        var xq1 = xq
+        xq_selector.setOnClickListener {
+
+            MenuDialogBuilder(this)
+                .addItems(items) { dialog, which ->
+                    Toast.makeText(this, "你选择了 " + items[which], Toast.LENGTH_SHORT).show()
+                    xq_selector.text = items[which]
+                    xq1 = which + 1
+                    editor.putInt("campus", which)
+                    editor.apply()
+                    dialog.dismiss()
+                }
+                .show()
+        }
+        return xq1
+    }
+
+    private fun fourCheckAction(time: Int): Int {
+        var time1 = time
+        allDay.setOnClickListener {
+            if (allDay.isChecked) {
+                morning.isChecked = true
+                afternoon.isChecked = true
+                night.isChecked = true
+            } else {
+                morning.isChecked = false
+                afternoon.isChecked = false
+                night.isChecked = false
+            }
+            time1 = 0
+        }
+        morning.setOnClickListener {
+            if (morning.isChecked && afternoon.isChecked && night.isChecked) allDay.isChecked =
+                true else if (!morning.isChecked && afternoon.isChecked && night.isChecked
+                && allDay.isChecked
+            ) {
+                morning.isChecked = true
+                allDay.isChecked = false
+                afternoon.isChecked = false
+                night.isChecked = false
+            } else if (morning.isChecked) {
+                afternoon.isChecked = false
+                night.isChecked = false
+            } else if (!morning.isChecked) {
+                allDay.isChecked = false
+                afternoon.isChecked = false
+                night.isChecked = false
+            } else allDay.isChecked = false
+            time1 = 1
+        }
+        afternoon.setOnClickListener {
+            if (morning.isChecked && afternoon.isChecked && night.isChecked) allDay.isChecked =
+                true else if (!afternoon.isChecked && morning.isChecked && night.isChecked
+                && allDay.isChecked
+            ) {
+                afternoon.isChecked = true
+                allDay.isChecked = false
+                morning.isChecked = false
+                night.isChecked = false
+            } else if (afternoon.isChecked) {
+                morning.isChecked = false
+                night.isChecked = false
+            } else if (!afternoon.isChecked) {
+                allDay.isChecked = false
+                morning.isChecked = false
+                night.isChecked = false
+            } else allDay.isChecked = false
+            time1 = 2
+        }
+        night.setOnClickListener {
+            if (morning.isChecked && afternoon.isChecked && night.isChecked) allDay.isChecked =
+                true else if (!night.isChecked && afternoon.isChecked && morning.isChecked
+                && allDay.isChecked
+            ) {
+                night.isChecked = true
+                morning.isChecked = false
+                afternoon.isChecked = false
+                allDay.isChecked = false
+            } else if (night.isChecked) {
+                morning.isChecked = false
+                afternoon.isChecked = false
+            } else if (!night.isChecked) {
+                allDay.isChecked = false
+                afternoon.isChecked = false
+                morning.isChecked = false
+            } else allDay.isChecked = false
+            time1 = 3
+        }
+        return time1
+    }
+
+    private fun defaultSelected() {
+        //默认选择allDay与today
+        today.isChecked = true
+        allDay.isChecked = true
+        morning.isChecked = true
+        afternoon.isChecked = true
+        night.isChecked = true
+    }
+
     //网络请求失败时的操作
     private fun showFaile() {
         runOnUiThread {
         }
     }
-
+    //适配器
+    class emptyListAdapter(val context: Context, val emptyList: List<empty_list>) :
+        RecyclerView.Adapter<emptyListAdapter.ViewHolder>() {
+        inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+            val cardtv1 = view.cardtv1
+            val cardtv2 = view.cardtv2
+            val cardtv3 = view.cardtv3
+            val cardtv4 = view.cardtv4
+            val mc1 = view.mc1
+            val mc2 = view.mc2
+            val mc3 = view.mc3
+            val mc4 = view.mc4
+        }
+        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): emptyListAdapter.ViewHolder {
+            val view=LayoutInflater.from(context).inflate(R.layout.recycler_view_model,parent,false)
+            return ViewHolder(view)
+        }
+        override fun onBindViewHolder(holder: emptyListAdapter.ViewHolder, position: Int) {
+            val empty=emptyList[position]
+            holder.cardtv1.text=empty.em1
+            holder.cardtv2.text=empty.em2
+            holder.cardtv3.text=empty.em3
+            holder.cardtv4.text=empty.em4
+            if(holder.cardtv1.text=="block") {
+                holder.mc1.visibility=View.GONE
+                holder.mc2.setBackgroundResource(R.color.split)
+                holder.mc3.visibility=View.GONE
+                holder.mc4.visibility=View.GONE
+            }
+        }
+        override fun getItemCount(): Int =emptyList.size
+    }
     //网络请求成功时的操作
     private fun showSuccess(responseData: String) {
         runOnUiThread {
-
-            class emptyListAdapter(val context: Context, val emptyList: List<empty_list>) :
-                RecyclerView.Adapter<emptyListAdapter.ViewHolder>() {
-                inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-                    val cardtv1 = view.cardtv1
-                    val cardtv2 = view.cardtv2
-                    val cardtv3 = view.cardtv3
-                    val cardtv4 = view.cardtv4
-                    val mc1 = view.mc1
-                    val mc2 = view.mc2
-                    val mc3 = view.mc3
-                    val mc4 = view.mc4
-                }
-                override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): emptyListAdapter.ViewHolder {
-                    val view=LayoutInflater.from(context).inflate(R.layout.recycler_view_model,parent,false)
-                    return ViewHolder(view)
-                }
-                override fun onBindViewHolder(holder: emptyListAdapter.ViewHolder, position: Int) {
-                    val empty=emptyList[position]
-                    holder.cardtv1.text=empty.em1
-                    holder.cardtv2.text=empty.em2
-                    holder.cardtv3.text=empty.em3
-                    holder.cardtv4.text=empty.em4
-                    if(holder.cardtv1.text=="block") {
-                        holder.mc1.setBackgroundResource(R.color.split)
-                        holder.mc2.visibility=View.GONE
-                        holder.mc3.visibility=View.GONE
-                        holder.mc4.visibility=View.GONE
-                    }
-                }
-                override fun getItemCount(): Int =emptyList.size
-            }
+            val list=mutableListOf(empty_list(">",">","",""))
 
             //Gson
-            val list=mutableListOf(empty_list("阶梯教室","","",""))
+
             val gson=Gson()
             val typeOf=object : TypeToken<List<empty_list>>(){}.type
             val emptyList_all= gson.fromJson<List<empty_list>>(responseData,typeOf)
@@ -264,9 +299,21 @@ class MainActivity : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.line1 -> Toast.makeText(this, "sssss", Toast.LENGTH_LONG).show()
-            R.id.line2 -> Toast.makeText(this, "sssss", Toast.LENGTH_LONG).show()
-            R.id.line3 -> Toast.makeText(this, "sssss", Toast.LENGTH_LONG).show()
+            R.id.line3 -> {
+                val intent=Intent(this,about::class.java)
+                startActivity(intent)
+
+            }
+            R.id.line2 -> Toast.makeText(this, "已是最新版本！", Toast.LENGTH_LONG).show()
+            R.id.line1 -> {
+                MessageDialogBuilder(this)
+                    .setTitle("使用指南->")
+                    .setMessage("\nOne touch.")
+                    .addAction(
+                        "已阅~"
+                    ) { dialog, index -> dialog.dismiss() }
+                    .show()
+            }
         }
         return true
 
