@@ -1,7 +1,5 @@
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="#2299CCFF">
@@ -20,8 +18,7 @@
             android:id="@+id/cardtv1"
             android:layout_width="match_parent"
             android:gravity="center_vertical|center"
-            android:layout_height="30dp"
-            android:text="sasasxax">
+            android:layout_height="30dp">
         </TextView>
 
     </com.google.android.material.card.MaterialCardView>
@@ -40,8 +37,7 @@
             android:id="@+id/cardtv2"
             android:layout_width="match_parent"
             android:gravity="center_vertical|center"
-            android:layout_height="30dp"
-            android:text="sasasxax">
+            android:layout_height="30dp">
         </TextView>
 
     </com.google.android.material.card.MaterialCardView>
@@ -60,8 +56,7 @@
             android:id="@+id/cardtv3"
             android:layout_width="match_parent"
             android:gravity="center_vertical|center"
-            android:layout_height="30dp"
-            android:text="sasasxax">
+            android:layout_height="30dp">
         </TextView>
 
     </com.google.android.material.card.MaterialCardView>
@@ -80,10 +75,8 @@
             android:id="@+id/cardtv4"
             android:layout_width="match_parent"
             android:gravity="center_vertical|center"
-            android:layout_height="30dp"
-            android:text="sasasxax">
+            android:layout_height="30dp">
         </TextView>
 
     </com.google.android.material.card.MaterialCardView>
-
 </LinearLayout>

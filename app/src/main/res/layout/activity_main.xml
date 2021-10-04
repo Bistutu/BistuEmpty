@@ -131,16 +131,13 @@
         android:text="查询空教室"
         android:textColor="@color/white"
         android:textSize="18sp"></Button>
-    <!--废弃按钮-->
-    <!--    <Button
-            android:id="@+id/ggg"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="1111"
-            ></Button>-->
-    <!--    以下空教室显示，待实现，建议用卡片式 Recycle-->
-
-    <!--demo用的Text-->
+<TextView
+    android:id="@+id/date"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center"
+    android:textSize="14dp"
+    ></TextView>
 <!--<include layout="@layout/recycler_view_model"></include>-->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"

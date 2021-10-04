@@ -18,6 +18,8 @@ import kotlinx.android.synthetic.main.recycler_view_model.view.*
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import java.lang.Exception
+import java.util.*
+import kotlin.collections.ArrayList
 import kotlin.concurrent.thread
 import kotlin.math.log
 
@@ -26,13 +28,21 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setSupportActionBar(tb1)
+        var xq=1;
+        var time=0;
         val items = arrayOf("小营校区", "健翔桥校区", "清河校区")
         //初始化SharedPreferences
         val editor = getPreferences(MODE_PRIVATE).edit()
         val prefs = getPreferences(MODE_PRIVATE)
+//获取日期
+        val gregorianCalendar=GregorianCalendar()
+        var month:Int=gregorianCalendar.get(Calendar.MONTH)+1
+        var day:Int=gregorianCalendar.get(Calendar.DAY_OF_MONTH)
 
         //初始化校区选择器
-        xq_selector.text = items[prefs.getInt("campus", 0)]
+        val xq_num=prefs.getInt("campus", 1)
+        xq_selector.text = items[prefs.getInt("campus", 1)]
+        xq=xq_num+1
         //默认选择allDay与today
         today.isChecked = true
         allDay.isChecked = true
@@ -51,7 +61,7 @@ class MainActivity : AppCompatActivity() {
                 afternoon.isChecked = false
                 night.isChecked = false
             }
-
+            time=0
         }
         morning.setOnClickListener {
             if (morning.isChecked && afternoon.isChecked && night.isChecked) allDay.isChecked =
@@ -70,6 +80,7 @@ class MainActivity : AppCompatActivity() {
                 afternoon.isChecked = false
                 night.isChecked = false
             } else allDay.isChecked = false
+            time=1
         }
         afternoon.setOnClickListener {
             if (morning.isChecked && afternoon.isChecked && night.isChecked) allDay.isChecked =
@@ -88,6 +99,7 @@ class MainActivity : AppCompatActivity() {
                 morning.isChecked = false
                 night.isChecked = false
             } else allDay.isChecked = false
+            time=2
         }
         night.setOnClickListener {
             if (morning.isChecked && afternoon.isChecked && night.isChecked) allDay.isChecked =
@@ -106,6 +118,7 @@ class MainActivity : AppCompatActivity() {
                 afternoon.isChecked = false
                 morning.isChecked = false
             } else allDay.isChecked = false
+            time=3
         }
 
         //校区选择器
@@ -115,6 +128,7 @@ class MainActivity : AppCompatActivity() {
                 .addItems(items) { dialog, which ->
                     Toast.makeText(this, "你选择了 " + items[which], Toast.LENGTH_SHORT).show()
                     xq_selector.text = items[which]
+                    xq=which+1
                     editor.putInt("campus", which)
                     editor.apply()
                     dialog.dismiss()
@@ -139,9 +153,11 @@ class MainActivity : AppCompatActivity() {
             //先发送网络请求、线程
             thread {
                 try {
+                    var keyUrl:String=(((""+time)+xq)+month)+"11"
+                    var url_formal:String="https://bistutu.github.io/demoEmpty/"+keyUrl+".json"
                     val okhttp = OkHttpClient()
                     val request = Request.Builder()
-                        .url("https://bistutu.github.io/demoEmpty/0209191.txt")
+                        .url(url_formal)
                         .build()
                     val response = okhttp.newCall(request).execute()
                     //
@@ -152,6 +168,7 @@ class MainActivity : AppCompatActivity() {
                         }, 500)
                     val responseData = response.body()?.string()
                     if (responseData != null) {
+                        date.text="你所查询的日期为："+month+"月"+"11"+"日"
                         showSuccess(responseData)
                     }
 
@@ -186,6 +203,7 @@ class MainActivity : AppCompatActivity() {
     //网络请求成功时的操作
     private fun showSuccess(responseData: String) {
         runOnUiThread {
+
             class emptyListAdapter(val context: Context, val emptyList: List<empty_list>) :
                 RecyclerView.Adapter<emptyListAdapter.ViewHolder>() {
                 inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
@@ -208,8 +226,7 @@ class MainActivity : AppCompatActivity() {
                     holder.cardtv2.text=empty.em2
                     holder.cardtv3.text=empty.em3
                     holder.cardtv4.text=empty.em4
-                    if(holder.cardtv3.text=="")
-                    {
+                    if(holder.cardtv2.text=="block") {
                         holder.mc1.setBackgroundResource(R.color.split)
                         holder.mc2.visibility=View.GONE
                         holder.mc3.visibility=View.GONE
@@ -218,11 +235,9 @@ class MainActivity : AppCompatActivity() {
                 }
                 override fun getItemCount(): Int =emptyList.size
             }
-            var list=mutableListOf(empty_list("阶梯教室","","",""))
-/*            val list= mutableListOf(empty_list("1","2","3","4"),
-                empty_list("1","2","3","4"),
-                empty_list("1","2","3","4"))*/
-            //重新书写list——————————————————————————————————————————————————————————
+
+            //Gson
+            val list=mutableListOf(empty_list("阶梯教室","block","",""))
             val gson=Gson()
             val typeOf=object : TypeToken<List<empty_list>>(){}.type
             val emptyList_all= gson.fromJson<List<empty_list>>(responseData,typeOf)
