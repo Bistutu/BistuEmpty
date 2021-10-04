@@ -14,7 +14,9 @@
         <entry key="..\:/emptyClassroom/app/src/main/res/drawable/ic_baseline_security_24.xml" value="0.21203703703703702" />
         <entry key="..\:/emptyClassroom/app/src/main/res/drawable/ic_launcher_background.xml" value="0.21203703703703702" />
         <entry key="..\:/emptyClassroom/app/src/main/res/drawable/xq_button.xml" value="0.18125" />
-        <entry key="..\:/emptyClassroom/app/src/main/res/layout/activity_main.xml" value="0.25364583333333335" />
+        <entry key="..\:/emptyClassroom/app/src/main/res/layout/activity_about.xml" value="0.25364583333333335" />
+        <entry key="..\:/emptyClassroom/app/src/main/res/layout/activity_main.xml" value="0.1678832116788321" />
+        <entry key="..\:/emptyClassroom/app/src/main/res/layout/recycler_view_model.xml" value="0.25364583333333335" />
         <entry key="..\:/emptyClassroom/app/src/main/res/menu/menu.xml" value="0.25364583333333335" />
         <entry key="..\:/emptyClassroom/app/src/main/res/xml/xq_button.xml" value="0.16510416666666666" />
       </map>

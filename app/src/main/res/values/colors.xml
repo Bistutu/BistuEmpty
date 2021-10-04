@@ -9,5 +9,6 @@
     <color name="white">#FFFFFFFF</color>
     <color name="logoColor">#FF6699CC</color>
     <color name="contentColor">#FF99CCFF</color>
+    <color name="split">#9999CCFF</color>
 
 </resources>
