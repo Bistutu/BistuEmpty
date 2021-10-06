@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?><!--最外层的框架，LinearLayout-->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -7,22 +7,23 @@
     android:orientation="vertical"
     tools:context=".MainActivity">
 
+    <!--    顶层Toolbar重写-->
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/tb1"
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
+        android:layout_height="50dp"
         android:background="#ff6699CC"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
         app:popupTheme="@style/PopupOverlay"
         tools:ignore="MissingConstraints"></androidx.appcompat.widget.Toolbar>
-    <!--校区选择按钮组-->
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+    <!--校区选择按钮布局-->
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
         android:layout_marginTop="5dp"
         android:layout_marginBottom="5dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
         android:orientation="horizontal">
 
         <TextView
@@ -39,19 +40,33 @@
             android:layout_height="30dp"
             android:background="@drawable/xq_button"
             android:drawableRight="@drawable/ic_baseline_keyboard_arrow_down_24"
-            android:gravity="center"
-            android:padding="5dp"
+            android:gravity="center|center_vertical"
             android:text="小营校区"></Button>
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:visibility="visible">
 
+        </TextView>
+        <Button
+            android:id="@+id/declareButton"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:background="#00000000"
+            android:text="查询声明"
+            android:textColor="@color/qmui_config_color_red"
+            android:gravity="center_vertical|center"
+            ></Button>
     </LinearLayout>
+
     <!--    日期选择器-->
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
         android:layout_marginTop="5dp"
         android:layout_marginBottom="5dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
         android:orientation="horizontal">
 
         <TextView
@@ -63,7 +78,6 @@
             android:textSize="16sp"></TextView>
 
         <RadioGroup
-            android:id="@+id/rg"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
@@ -71,13 +85,15 @@
             <RadioButton
                 android:id="@+id/today"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginRight="5dp"
                 android:text="今天"></RadioButton>
 
             <RadioButton
                 android:id="@+id/tomorrow"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginRight="5dp"
                 android:text="明天"></RadioButton>
 
             <RadioButton
@@ -87,14 +103,15 @@
                 android:text="后天"></RadioButton>
         </RadioGroup>
     </LinearLayout>
-    <!--    时段-->
+
+    <!--    时段选择器-->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:layout_marginBottom="5dp"
         android:layout_marginLeft="10dp"
+        android:layout_marginTop="5dp"
         android:layout_marginRight="10dp"
+        android:layout_marginBottom="5dp"
         android:orientation="horizontal">
 
         <TextView
@@ -108,55 +125,58 @@
         <CheckBox
             android:id="@+id/allDay"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginRight="5dp"
             android:text="全天"></CheckBox>
 
         <CheckBox
             android:id="@+id/morning"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginRight="5dp"
             android:text="上午"></CheckBox>
 
         <CheckBox
             android:id="@+id/afternoon"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginRight="5dp"
             android:text="下午"></CheckBox>
 
         <CheckBox
             android:id="@+id/night"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginRight="5dp"
             android:text="晚上"></CheckBox>
     </LinearLayout>
 
-    <!--最后的查询按钮-->
+    <!--"查询"按钮-->
     <Button
         android:id="@+id/btSearch"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:layout_marginBottom="5dp"
         android:layout_marginLeft="10dp"
+        android:layout_marginTop="5dp"
         android:layout_marginRight="10dp"
+        android:layout_marginBottom="5dp"
         android:background="@drawable/button_selected"
         android:text="查询空教室"
         android:textColor="@color/white"
         android:textSize="18sp"></Button>
-<TextView
-    android:id="@+id/date"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:gravity="center"
-    android:textSize="14dp"
-    ></TextView>
-<!--<include layout="@layout/recycler_view_model"></include>-->
 
+    <!--点击“查询空教室”按钮，底下会出现的一行提示小字-->
+    <TextView
+        android:id="@+id/date"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:textSize="14dp"></TextView>
+
+    <!--空教室数据的RecyclerView主体-->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"></androidx.recyclerview.widget.RecyclerView>
 
-    </androidx.recyclerview.widget.RecyclerView>
-
-</LinearLayout>
+</LinearLayout><!--布局结束-->

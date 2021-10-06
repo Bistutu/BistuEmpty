@@ -16,11 +16,12 @@
         <TextView
             android:singleLine="true"
             android:ellipsize="none"
-            android:layout_margin="5dp"
+            android:textSize="14sp"
+            android:layout_margin="3dp"
             android:id="@+id/cardtv1"
             android:layout_width="match_parent"
             android:gravity="center_vertical|center"
-            android:layout_height="30dp">
+            android:layout_height="wrap_content">
         </TextView>
 
     </com.google.android.material.card.MaterialCardView>
@@ -37,11 +38,12 @@
         <TextView
             android:singleLine="true"
             android:ellipsize="none"
-            android:layout_margin="5dp"
+            android:textSize="14sp"
+            android:layout_margin="3dp"
             android:id="@+id/cardtv2"
             android:layout_width="match_parent"
             android:gravity="center_vertical|center"
-            android:layout_height="30dp">
+            android:layout_height="wrap_content">
         </TextView>
 
     </com.google.android.material.card.MaterialCardView>
@@ -58,11 +60,12 @@
         <TextView
             android:singleLine="true"
             android:ellipsize="none"
-            android:layout_margin="5dp"
+            android:textSize="14sp"
+            android:layout_margin="3dp"
             android:id="@+id/cardtv3"
             android:layout_width="match_parent"
             android:gravity="center_vertical|center"
-            android:layout_height="30dp">
+            android:layout_height="wrap_content">
         </TextView>
 
     </com.google.android.material.card.MaterialCardView>
@@ -79,11 +82,12 @@
         <TextView
             android:singleLine="true"
             android:ellipsize="none"
-            android:layout_margin="5dp"
+            android:textSize="14sp"
+            android:layout_margin="3dp"
             android:id="@+id/cardtv4"
             android:layout_width="match_parent"
             android:gravity="center_vertical|center"
-            android:layout_height="30dp">
+            android:layout_height="wrap_content">
         </TextView>
 
     </com.google.android.material.card.MaterialCardView>

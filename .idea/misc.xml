@@ -5,17 +5,26 @@
       <map>
         <entry key="..\:/Android Work/MyApplication3/app/src/main/res/layout/activity_main.xml" value="0.1" />
         <entry key="..\:/Android Work/MyApplication3/app/src/main/res/menu/menu.xml" value="0.1" />
+        <entry key="..\:/emptyClassroom/app/src/main/res/drawable/about_border.xml" value="0.19537037037037036" />
+        <entry key="..\:/emptyClassroom/app/src/main/res/drawable/about_selector.xml" value="0.19537037037037036" />
         <entry key="..\:/emptyClassroom/app/src/main/res/drawable/background_selector.xml" value="0.18125" />
         <entry key="..\:/emptyClassroom/app/src/main/res/drawable/button_selected.xml" value="0.21770833333333334" />
         <entry key="..\:/emptyClassroom/app/src/main/res/drawable/ellipse_button.xml" value="0.23148148148148148" />
         <entry key="..\:/emptyClassroom/app/src/main/res/drawable/ellipse_button_initial.xml" value="0.18125" />
         <entry key="..\:/emptyClassroom/app/src/main/res/drawable/ellipse_button_selected.xml" value="0.21770833333333334" />
+        <entry key="..\:/emptyClassroom/app/src/main/res/drawable/gray_fore.xml" value="0.19537037037037036" />
+        <entry key="..\:/emptyClassroom/app/src/main/res/drawable/ic_baseline_keyboard_arrow_down_24.xml" value="0.19537037037037036" />
+        <entry key="..\:/emptyClassroom/app/src/main/res/drawable/ic_baseline_keyboard_arrow_right_24.xml" value="0.19537037037037036" />
+        <entry key="..\:/emptyClassroom/app/src/main/res/drawable/ic_baseline_keyboard_backspace_24.xml" value="0.19537037037037036" />
         <entry key="..\:/emptyClassroom/app/src/main/res/drawable/ic_baseline_search_24.xml" value="0.23148148148148148" />
         <entry key="..\:/emptyClassroom/app/src/main/res/drawable/ic_baseline_security_24.xml" value="0.21203703703703702" />
         <entry key="..\:/emptyClassroom/app/src/main/res/drawable/ic_launcher_background.xml" value="0.21203703703703702" />
         <entry key="..\:/emptyClassroom/app/src/main/res/drawable/xq_button.xml" value="0.18125" />
-        <entry key="..\:/emptyClassroom/app/src/main/res/layout/activity_about.xml" value="0.25364583333333335" />
-        <entry key="..\:/emptyClassroom/app/src/main/res/layout/activity_main.xml" value="0.1678832116788321" />
+        <entry key="..\:/emptyClassroom/app/src/main/res/layout/activity_about.xml" value="0.2" />
+        <entry key="..\:/emptyClassroom/app/src/main/res/layout/activity_main.xml" value="0.264" />
+        <entry key="..\:/emptyClassroom/app/src/main/res/layout/activity_main2.xml" value="0.20677083333333332" />
+        <entry key="..\:/emptyClassroom/app/src/main/res/layout/content_main.xml" value="0.20677083333333332" />
+        <entry key="..\:/emptyClassroom/app/src/main/res/layout/fragment_first.xml" value="0.20677083333333332" />
         <entry key="..\:/emptyClassroom/app/src/main/res/layout/recycler_view_model.xml" value="0.25364583333333335" />
         <entry key="..\:/emptyClassroom/app/src/main/res/menu/menu.xml" value="0.25364583333333335" />
         <entry key="..\:/emptyClassroom/app/src/main/res/xml/xq_button.xml" value="0.16510416666666666" />
