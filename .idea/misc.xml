@@ -21,12 +21,15 @@
         <entry key="..\:/emptyClassroom/app/src/main/res/drawable/ic_launcher_background.xml" value="0.21203703703703702" />
         <entry key="..\:/emptyClassroom/app/src/main/res/drawable/xq_button.xml" value="0.18125" />
         <entry key="..\:/emptyClassroom/app/src/main/res/layout/activity_about.xml" value="0.2" />
+        <entry key="..\:/emptyClassroom/app/src/main/res/layout/activity_github_web.xml" value="0.196875" />
         <entry key="..\:/emptyClassroom/app/src/main/res/layout/activity_main.xml" value="0.264" />
         <entry key="..\:/emptyClassroom/app/src/main/res/layout/activity_main2.xml" value="0.20677083333333332" />
         <entry key="..\:/emptyClassroom/app/src/main/res/layout/content_main.xml" value="0.20677083333333332" />
         <entry key="..\:/emptyClassroom/app/src/main/res/layout/fragment_first.xml" value="0.20677083333333332" />
         <entry key="..\:/emptyClassroom/app/src/main/res/layout/recycler_view_model.xml" value="0.25364583333333335" />
         <entry key="..\:/emptyClassroom/app/src/main/res/menu/menu.xml" value="0.25364583333333335" />
+        <entry key="..\:/emptyClassroom/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.17962962962962964" />
+        <entry key="..\:/emptyClassroom/app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" value="0.17962962962962964" />
         <entry key="..\:/emptyClassroom/app/src/main/res/xml/xq_button.xml" value="0.16510416666666666" />
       </map>
     </option>

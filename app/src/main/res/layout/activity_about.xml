@@ -50,6 +50,8 @@
             android:textSize="120sp"
             android:textColor="@color/logoColor"
             android:gravity="center|center_vertical"></TextView>
+
+
         <TextView
             android:layout_width="match_parent"
             android:layout_height="1.5dp"
@@ -60,13 +62,14 @@
             android:layout_height="wrap_content"
             android:paddingLeft="15dp"
             android:paddingRight="10dp"
-            android:text="开源项目：github开源地址（点击复制）"
+            android:text="github开源地址：（跳转至浏览器打开）"
             android:textSize="16sp"
             android:gravity="left|center_vertical"
             android:drawableRight="@drawable/ic_baseline_keyboard_arrow_right_24"
             android:background="@drawable/about_selector">
         </Button>
-        <TextView
+<!--        微信公众号的button-->
+<!--        <TextView
             android:layout_width="match_parent"
             android:layout_height="1.5dp"
             android:background="@drawable/about_border"></TextView>
@@ -77,6 +80,23 @@
             android:paddingLeft="15dp"
             android:paddingRight="10dp"
             android:text="微信公众号：Bistutu（点击复制）"
+            android:textSize="16sp"
+            android:gravity="left|center_vertical"
+            android:drawableRight="@drawable/ic_baseline_keyboard_arrow_right_24"
+            android:background="@drawable/about_selector">
+        </Button>-->
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="1.5dp"
+            android:background="@drawable/about_border"></TextView>
+        <Button
+            android:id="@+id/update"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="15dp"
+            android:paddingRight="10dp"
+            android:text="更新日志"
             android:textSize="16sp"
             android:gravity="left|center_vertical"
             android:drawableRight="@drawable/ic_baseline_keyboard_arrow_right_24"
@@ -102,12 +122,21 @@
             android:layout_width="match_parent"
             android:layout_height="1.5dp"
             android:background="@drawable/about_border"></TextView>
+
     </LinearLayout>
+
+    <TextView
+        android:id="@+id/versionTetx"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:textSize="12sp"
+        android:textColor="#CCCCCC"></TextView>
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:layout_margin="10dp"
+        android:layout_marginBottom="10dp"
         android:textColor="#CCCCCC"
         android:text="© 2021 Bistutu All right reserved.">
 

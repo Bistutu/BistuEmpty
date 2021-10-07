@@ -38,6 +38,7 @@
             android:id="@+id/xq_selector"
             android:layout_width="100dp"
             android:layout_height="30dp"
+            android:paddingLeft="10dp"
             android:background="@drawable/xq_button"
             android:drawableRight="@drawable/ic_baseline_keyboard_arrow_down_24"
             android:gravity="center|center_vertical"
@@ -150,7 +151,6 @@
             android:layout_marginRight="5dp"
             android:text="晚上"></CheckBox>
     </LinearLayout>
-
     <!--"查询"按钮-->
     <Button
         android:id="@+id/btSearch"
