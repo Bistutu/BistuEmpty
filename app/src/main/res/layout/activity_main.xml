@@ -36,8 +36,8 @@
 
         <Button
             android:id="@+id/xq_selector"
-            android:layout_width="100dp"
-            android:layout_height="30dp"
+            android:layout_width="150dp"
+            android:layout_height="35dp"
             android:paddingLeft="10dp"
             android:background="@drawable/xq_button"
             android:drawableRight="@drawable/ic_baseline_keyboard_arrow_down_24"
