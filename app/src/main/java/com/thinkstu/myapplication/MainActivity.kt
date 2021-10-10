@@ -386,16 +386,22 @@ class MainActivity : AppCompatActivity() {
                 btSearch.postDelayed(Runnable { loadGo.dismiss();loadSuccess.show() }, 500)
                 btSearch.postDelayed(Runnable { loadSuccess.dismiss(); }, 1500)
                 val listArray = ArrayList<empty_list>(list)
+                val timeList=ArrayList<empty_list>()
 
-                
                 var isTime=0
+                var isOneLine=1
                 for (i in listArray){
                     if (i.em4.equals(""+time))
                         isTime=1
                     if (i.em4.equals(""+(time+1)))
                         isTime=0
-                    if (isTime!=0)
+                    if (isTime!=0){
+
+
+                        if(isOneLine!=1)
                         timeList.add(i)
+                    isOneLine=0
+                    }
                 }
                 recyclerView.layoutManager = layoutManager
                 val adapter = emptyListAdapter(this, timeList, xq)
