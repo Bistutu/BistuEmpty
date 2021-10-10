@@ -108,21 +108,23 @@ class MainActivity : AppCompatActivity() {
                         "你所查询的日期为：" + month + "月" + day + "日" + "(" + weekString + ")  " + timeString
                     //请求成功，开始渲染recyclerView界面
                     showSuccess(loadGo, loadSuccess)
-                }
-                else{
+                } else {
                     //responseData为空时
                     thread {
                         try {
                             var keyUrl: String = "" + xq + "/" + xq + month + day
-                            var url: String = "https://bistutu.github.io/formEmpty/" + keyUrl + ".json"
+                            var url: String =
+                                "https://bistutu.github.io/formEmpty/" + keyUrl + ".json"
                             responseData = okhttp_model.send(url).toString()
                             date.text =
                                 "你所查询的日期为：" + month + "月" + day + "日" + "(" + weekString + ")  " + timeString
                             showSuccess(loadGo, loadSuccess)
-                        }
-                        catch (e:Exception){
+                        } catch (e: Exception) {
                             //请求失败，发出警告
-                            btSearch.postDelayed(Runnable { loadGo.dismiss();loadFaile.show() }, 1000)
+                            btSearch.postDelayed(
+                                Runnable { loadGo.dismiss();loadFaile.show() },
+                                1000
+                            )
                             btSearch.postDelayed(Runnable { loadFaile.dismiss() }, 2000)
                         }
                     }
@@ -187,58 +189,64 @@ class MainActivity : AppCompatActivity() {
             day = gregorianCalendar.get(Calendar.DAY_OF_MONTH)
             //判断星期几
             weekDay = gregorianCalendar.get(Calendar.DAY_OF_WEEK) - 1
-            responseData =null
+            responseData = null
             btSearch.setBackgroundResource(R.drawable.ellipse_button_initial)
-            btSearch.text="正在加载中..."
-            btSearch.isClickable=false
-            btSearch.postDelayed({btSearch.setBackgroundResource(R.drawable.button_selected)
-                btSearch.text="查询空教室"
-                btSearch.isClickable=true},1000)
+            btSearch.text = "正在加载中..."
+            btSearch.isClickable = false
+            btSearch.postDelayed({
+                btSearch.setBackgroundResource(R.drawable.button_selected)
+                btSearch.text = "查询空教室"
+                btSearch.isClickable = true
+            }, 1000)
             thread {
                 try {
                     var keyUrl: String = "" + xq + "/" + xq + month + day
                     var url: String = "https://bistutu.github.io/formEmpty/" + keyUrl + ".json"
                     responseData = okhttp_model.send(url).toString()
+                } catch (e: Exception) {
                 }
-                catch (e:Exception){}
             }
         }
         tomorrow.setOnClickListener {
             day = gregorianCalendar.get(Calendar.DAY_OF_MONTH) + 1
             weekDay = gregorianCalendar.get(Calendar.DAY_OF_WEEK)
-            responseData =null
+            responseData = null
             btSearch.setBackgroundResource(R.drawable.ellipse_button_initial)
-            btSearch.text="正在加载中..."
-            btSearch.isClickable=false
-            btSearch.postDelayed({btSearch.setBackgroundResource(R.drawable.button_selected)
-                btSearch.text="查询空教室"
-                btSearch.isClickable=true},1000)
+            btSearch.text = "正在加载中..."
+            btSearch.isClickable = false
+            btSearch.postDelayed({
+                btSearch.setBackgroundResource(R.drawable.button_selected)
+                btSearch.text = "查询空教室"
+                btSearch.isClickable = true
+            }, 1000)
             thread {
                 try {
-                var keyUrl: String = "" + xq + "/" + xq + month + day
-                var url: String = "https://bistutu.github.io/formEmpty/" + keyUrl + ".json"
-                responseData = okhttp_model.send(url).toString()
+                    var keyUrl: String = "" + xq + "/" + xq + month + day
+                    var url: String = "https://bistutu.github.io/formEmpty/" + keyUrl + ".json"
+                    responseData = okhttp_model.send(url).toString()
+                } catch (e: Exception) {
                 }
-                catch (e:Exception){}
             }
         }
         afterTomorrow.setOnClickListener {
             day = gregorianCalendar.get(Calendar.DAY_OF_MONTH) + 2
             weekDay = (gregorianCalendar.get(Calendar.DAY_OF_WEEK) + 1) % 7
-            responseData =null
+            responseData = null
             btSearch.setBackgroundResource(R.drawable.ellipse_button_initial)
-            btSearch.text="正在加载中..."
-            btSearch.isClickable=false
-            btSearch.postDelayed({btSearch.setBackgroundResource(R.drawable.button_selected)
-                btSearch.text="查询空教室"
-                btSearch.isClickable=true},1000)
+            btSearch.text = "正在加载中..."
+            btSearch.isClickable = false
+            btSearch.postDelayed({
+                btSearch.setBackgroundResource(R.drawable.button_selected)
+                btSearch.text = "查询空教室"
+                btSearch.isClickable = true
+            }, 1000)
             thread {
                 try {
-                var keyUrl: String = "" + xq + "/" + xq + month + day
-                var url: String = "https://bistutu.github.io/formEmpty/" + keyUrl + ".json"
-                responseData = okhttp_model.send(url).toString()
+                    var keyUrl: String = "" + xq + "/" + xq + month + day
+                    var url: String = "https://bistutu.github.io/formEmpty/" + keyUrl + ".json"
+                    responseData = okhttp_model.send(url).toString()
+                } catch (e: Exception) {
                 }
-                catch (e:Exception){}
             }
         }
     }
@@ -255,7 +263,16 @@ class MainActivity : AppCompatActivity() {
                     xq = which + 1
                     editor.putInt("campus", which)
                     editor.apply()
-                    responseData=null
+                    responseData = null
+                    thread {
+                        try{
+                            var keyUrl: String = "" + xq + "/" + xq + month + day
+                            var url: String = "https://bistutu.github.io/formEmpty/" + keyUrl + ".json"
+                            responseData = okhttp_model.send(url).toString()
+                        }
+                        catch (e:Exception){}
+                    }
+
                     dialog.dismiss()
                 }
                 .show()
