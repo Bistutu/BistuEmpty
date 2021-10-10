@@ -82,35 +82,53 @@ class MainActivity : AppCompatActivity() {
             //设置当点击Dialog外时可以取消Dialog
             loadSuccess.setCanceledOnTouchOutside(true)
             loadFaile.setCanceledOnTouchOutside(true)
+            loadGo.setCanceledOnTouchOutside(true)
             try {
-                //在查询按钮的底下显示所查询的日期
+                when (weekDay) {
+                    1 -> weekString = "星期一"
+                    2 -> weekString = "星期二"
+                    3 -> weekString = "星期三"
+                    4 -> weekString = "星期四"
+                    5 -> weekString = "星期五"
+                    6 -> weekString = "星期六"
+                    0, 7 -> weekString = "星期日"
+                }
+                //判断时段
+                var timeString = ""
+                when (time) {
+                    0 -> timeString = "全天"
+                    1 -> timeString = "上午"
+                    2 -> timeString = "下午"
+                    3 -> timeString = "晚上"
+                }
+                /*以下这个点击事件，10.10优化了一下，如果responseData存在，则查询的数据来自本地（1s）
+                * 如果responseData==null,则向服务器请求数据，时间天注定！*/
                 if (responseData != null) {
-                    when (weekDay) {
-                        1 -> weekString = "星期一"
-                        2 -> weekString = "星期二"
-                        3 -> weekString = "星期三"
-                        4 -> weekString = "星期四"
-                        5 -> weekString = "星期五"
-                        6 -> weekString = "星期六"
-                        0, 7 -> weekString = "星期日"
-                    }
-                    //判断时段
-                    var timeString = ""
-                    when (time) {
-                        0 -> timeString = "全天"
-                        1 -> timeString = "上午"
-                        2 -> timeString = "下午"
-                        3 -> timeString = "晚上"
-                    }
                     date.text =
                         "你所查询的日期为：" + month + "月" + day + "日" + "(" + weekString + ")  " + timeString
                     //请求成功，开始渲染recyclerView界面
                     showSuccess(loadGo, loadSuccess)
                 }
+                else{
+                    //responseData为空时
+                    thread {
+                        try {
+                            var keyUrl: String = "" + xq + "/" + xq + month + day
+                            var url: String = "https://bistutu.github.io/formEmpty/" + keyUrl + ".json"
+                            responseData = okhttp_model.send(url).toString()
+                            date.text =
+                                "你所查询的日期为：" + month + "月" + day + "日" + "(" + weekString + ")  " + timeString
+                            showSuccess(loadGo, loadSuccess)
+                        }
+                        catch (e:Exception){
+                            //请求失败，发出警告
+                            btSearch.postDelayed(Runnable { loadGo.dismiss();loadFaile.show() }, 1000)
+                            btSearch.postDelayed(Runnable { loadFaile.dismiss() }, 2000)
+                        }
+                    }
+                }
             } catch (e: Exception) {
-                //请求失败，发出警告
-                btSearch.postDelayed(Runnable { loadGo.dismiss();loadFaile.show() }, 1000)
-                btSearch.postDelayed(Runnable { loadFaile.dismiss() }, 2500)
+
             }
         }
         //右上角的”查询声明“Button
@@ -169,31 +187,58 @@ class MainActivity : AppCompatActivity() {
             day = gregorianCalendar.get(Calendar.DAY_OF_MONTH)
             //判断星期几
             weekDay = gregorianCalendar.get(Calendar.DAY_OF_WEEK) - 1
-            responseData = null
+            responseData =null
+            btSearch.setBackgroundResource(R.drawable.ellipse_button_initial)
+            btSearch.text="正在加载中..."
+            btSearch.isClickable=false
+            btSearch.postDelayed({btSearch.setBackgroundResource(R.drawable.button_selected)
+                btSearch.text="查询空教室"
+                btSearch.isClickable=true},1000)
             thread {
-                var keyUrl: String = "" + xq + "/" + xq + month + day
-                var url: String = "https://bistutu.github.io/formEmpty/" + keyUrl + ".json"
-                responseData = okhttp_model.send(url).toString()
+                try {
+                    var keyUrl: String = "" + xq + "/" + xq + month + day
+                    var url: String = "https://bistutu.github.io/formEmpty/" + keyUrl + ".json"
+                    responseData = okhttp_model.send(url).toString()
+                }
+                catch (e:Exception){}
             }
         }
         tomorrow.setOnClickListener {
             day = gregorianCalendar.get(Calendar.DAY_OF_MONTH) + 1
             weekDay = gregorianCalendar.get(Calendar.DAY_OF_WEEK)
-            responseData = null
+            responseData =null
+            btSearch.setBackgroundResource(R.drawable.ellipse_button_initial)
+            btSearch.text="正在加载中..."
+            btSearch.isClickable=false
+            btSearch.postDelayed({btSearch.setBackgroundResource(R.drawable.button_selected)
+                btSearch.text="查询空教室"
+                btSearch.isClickable=true},1000)
             thread {
+                try {
                 var keyUrl: String = "" + xq + "/" + xq + month + day
                 var url: String = "https://bistutu.github.io/formEmpty/" + keyUrl + ".json"
                 responseData = okhttp_model.send(url).toString()
+                }
+                catch (e:Exception){}
             }
         }
         afterTomorrow.setOnClickListener {
             day = gregorianCalendar.get(Calendar.DAY_OF_MONTH) + 2
             weekDay = (gregorianCalendar.get(Calendar.DAY_OF_WEEK) + 1) % 7
-            responseData = null
+            responseData =null
+            btSearch.setBackgroundResource(R.drawable.ellipse_button_initial)
+            btSearch.text="正在加载中..."
+            btSearch.isClickable=false
+            btSearch.postDelayed({btSearch.setBackgroundResource(R.drawable.button_selected)
+                btSearch.text="查询空教室"
+                btSearch.isClickable=true},1000)
             thread {
+                try {
                 var keyUrl: String = "" + xq + "/" + xq + month + day
                 var url: String = "https://bistutu.github.io/formEmpty/" + keyUrl + ".json"
                 responseData = okhttp_model.send(url).toString()
+                }
+                catch (e:Exception){}
             }
         }
     }
@@ -210,6 +255,7 @@ class MainActivity : AppCompatActivity() {
                     xq = which + 1
                     editor.putInt("campus", which)
                     editor.apply()
+                    responseData=null
                     dialog.dismiss()
                 }
                 .show()
@@ -378,29 +424,26 @@ class MainActivity : AppCompatActivity() {
     private fun showSuccess(loadGo: Dialog, loadSuccess: Dialog) {
         runOnUiThread {
             try {
-                val list=mutableListOf(empty_list("0", "", "", ""))
+                btSearch.postDelayed(Runnable { loadGo.dismiss();loadSuccess.show() }, 500)
+                btSearch.postDelayed(Runnable { loadSuccess.dismiss(); }, 1000)
+                val list = mutableListOf(empty_list("0", "", "", ""))
                 val emptyList_all = gson.fromJson<List<empty_list>>(responseData, typeOf)
                 for (i in emptyList_all) {
                     list.add(i)
                 }
-                btSearch.postDelayed(Runnable { loadGo.dismiss();loadSuccess.show() }, 500)
-                btSearch.postDelayed(Runnable { loadSuccess.dismiss(); }, 1500)
                 val listArray = ArrayList<empty_list>(list)
-                val timeList=ArrayList<empty_list>()
-
-                var isTime=0
-                var isOneLine=1
-                for (i in listArray){
-                    if (i.em4.equals(""+time))
-                        isTime=1
-                    if (i.em4.equals(""+(time+1)))
-                        isTime=0
-                    if (isTime!=0){
-
-
-                        if(isOneLine!=1)
-                        timeList.add(i)
-                    isOneLine=0
+                val timeList = ArrayList<empty_list>()
+                var isTime = 0
+                var isOneLine = 1
+                for (i in listArray) {
+                    if (i.em4.equals("" + time))
+                        isTime = 1
+                    if (i.em4.equals("" + (time + 1)))
+                        isTime = 0
+                    if (isTime != 0) {
+                        if (isOneLine != 1)
+                            timeList.add(i)
+                        isOneLine = 0
                     }
                 }
                 recyclerView.layoutManager = layoutManager
@@ -501,7 +544,7 @@ class MainActivity : AppCompatActivity() {
                 .setTipWord("查询成功")
                 .create(true)
         val loadFaile =
-            QMUITipDialog.Builder(this).setIconType(QMUITipDialog.Builder.ICON_TYPE_INFO)
+            QMUITipDialog.Builder(this).setIconType(QMUITipDialog.Builder.ICON_TYPE_FAIL)
                 .setTipWord("查询失败，请检查网络设置后重试")
                 .create(true)
         return Triple(loadGo, loadSuccess, loadFaile)
