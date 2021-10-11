@@ -5,8 +5,11 @@
       <map>
         <entry key="..\:/Android Work/MyApplication3/app/src/main/res/layout/activity_main.xml" value="0.1" />
         <entry key="..\:/Android Work/MyApplication3/app/src/main/res/menu/menu.xml" value="0.1" />
+        <entry key="..\:/emptyClassroom/app/src/main/res/drawable/about_back_selector.xml" value="0.2222222222222222" />
         <entry key="..\:/emptyClassroom/app/src/main/res/drawable/about_border.xml" value="0.19537037037037036" />
         <entry key="..\:/emptyClassroom/app/src/main/res/drawable/about_selector.xml" value="0.19537037037037036" />
+        <entry key="..\:/emptyClassroom/app/src/main/res/drawable/back_initial.xml" value="0.20364583333333333" />
+        <entry key="..\:/emptyClassroom/app/src/main/res/drawable/back_pressed.xml" value="0.20364583333333333" />
         <entry key="..\:/emptyClassroom/app/src/main/res/drawable/background_selector.xml" value="0.18125" />
         <entry key="..\:/emptyClassroom/app/src/main/res/drawable/button_selected.xml" value="0.21770833333333334" />
         <entry key="..\:/emptyClassroom/app/src/main/res/drawable/ellipse_button.xml" value="0.23148148148148148" />

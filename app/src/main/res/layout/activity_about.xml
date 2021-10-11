@@ -15,7 +15,7 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:drawableLeft="@drawable/ic_baseline_keyboard_backspace_24"
-            android:background="#00000000"
+            android:background="@drawable/about_back_selector"
             android:layout_marginLeft="10dp"
             android:textSize="20sp"
             android:height="50dp">

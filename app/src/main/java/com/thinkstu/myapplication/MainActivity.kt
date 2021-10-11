@@ -138,7 +138,7 @@ class MainActivity : AppCompatActivity() {
                     MessageDialogBuilder(this)
                         .setTitle("小营校区查询的范围为：")
                         .setMessage(
-                            "（1）一教阶梯教室\n" +
+                            "（1）一教全部\n" +
                                     "（2）二教全部\n" +
                                     "（3）四教全部\n\n" +
                                     "\t数据来自于教务网，不排除被临时占用的情况，仅供参考"
