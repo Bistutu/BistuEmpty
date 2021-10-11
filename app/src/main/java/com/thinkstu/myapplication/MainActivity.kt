@@ -1,19 +1,14 @@
 package com.thinkstu.myapplication
 
 import android.app.Dialog
-import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.TypedValue
 import android.view.*
 import android.widget.Toast
-import androidx.core.view.marginLeft
-import androidx.core.view.marginTop
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import kotlinx.android.synthetic.main.activity_main.*
@@ -26,7 +21,6 @@ import java.util.*
 import kotlin.collections.ArrayList
 import kotlin.concurrent.thread
 import com.qmuiteam.qmui.widget.dialog.QMUIDialog.MessageDialogBuilder
-import java.lang.StringBuilder
 
 class MainActivity : AppCompatActivity() {
     //全局变量均放在了最末尾
@@ -52,13 +46,17 @@ class MainActivity : AppCompatActivity() {
                 //不执行任何操作
             }
         }
-
         //SharedPreferences，这里用来设置每次打开软件时默认选择的校区
         val editor = getPreferences(MODE_PRIVATE).edit()
         val prefs = getPreferences(MODE_PRIVATE)
         //第一次打开软件时默认选择的校区是”小营校区“，xq是（校区）的缩写
         xq = prefs.getInt("campus", 1) + 1
         xq_selector.text = items[xq - 1]
+        //xy_selector默认选择
+        xy_select = prefs.getInt("xy_select", 0)
+        //xy的教学楼选择方法
+        xyMethod(editor)
+
         //这是一个方法，我放在了最后面。每次打开软件都会默认选择 “今天”  和  “全天”
         defaultSelected()
         //四个CheckButton的选择事件
@@ -114,7 +112,7 @@ class MainActivity : AppCompatActivity() {
                         try {
                             var keyUrl: String = "" + xq + "/" + xq + month + day
                             var url: String =
-                                "https://bistutu.github.io/formEmpty/" + keyUrl + ".json"
+                                "https://bistutu.github.io/emptyData/" + keyUrl + ".json"
                             responseData = okhttp_model.send(url).toString()
                             date.text =
                                 "你所查询的日期为：" + month + "月" + day + "日" + "(" + weekString + ")  " + timeString
@@ -143,7 +141,7 @@ class MainActivity : AppCompatActivity() {
                             "（1）一教阶梯教室\n" +
                                     "（2）二教全部\n" +
                                     "（3）四教全部\n\n" +
-                                    "\t数据来自于教务网，仅供参考"
+                                    "\t数据来自于教务网，不排除被临时占用的情况，仅供参考"
                         )
                         .addAction(
                             "已阅~"
@@ -157,7 +155,7 @@ class MainActivity : AppCompatActivity() {
                             "（1）一教阶梯教室\n" +
                                     "（2）二教全部\n" +
                                     "（3）三教阶梯教室\n\n" +
-                                    "\t数据来自于教务网，仅供参考"
+                                    "\t数据来自于教务网，不排除被临时占用的情况，仅供参考"
                         )
                         .addAction(
                             "已阅~"
@@ -171,7 +169,7 @@ class MainActivity : AppCompatActivity() {
                             "（1）一教全部\n" +
                                     "（2）二教全部\n" +
                                     "（3）三教全部\n\n" +
-                                    "\t数据来自于教务网，仅供参考"
+                                    "\t数据来自于教务网，不排除被临时占用的情况，仅供参考"
                         )
                         .addAction(
                             "已阅~"
@@ -179,6 +177,28 @@ class MainActivity : AppCompatActivity() {
                         .show()
                 }
             }
+        }
+    }
+
+    private fun xyMethod(editor: SharedPreferences.Editor) {
+        if (xy_select == 0)
+            one.isChecked = true
+        else
+            noOne.isChecked = true
+        //判断是否显示xy_selector
+        if (xq == 1)
+            xy_selector.visibility = View.VISIBLE
+        else
+            xy_selector.visibility = View.GONE
+        one.setOnClickListener {
+            xy_select = 0
+            editor.putInt("xy_select", xy_select)
+            editor.apply()
+        }
+        noOne.setOnClickListener {
+            xy_select = 1
+            editor.putInt("xy_select", xy_select)
+            editor.apply()
         }
     }
     /*onCreate()方法结束*/
@@ -201,7 +221,7 @@ class MainActivity : AppCompatActivity() {
             thread {
                 try {
                     var keyUrl: String = "" + xq + "/" + xq + month + day
-                    var url: String = "https://bistutu.github.io/formEmpty/" + keyUrl + ".json"
+                    var url: String = "https://bistutu.github.io/emptyData/" + keyUrl + ".json"
                     responseData = okhttp_model.send(url).toString()
                 } catch (e: Exception) {
                 }
@@ -222,7 +242,7 @@ class MainActivity : AppCompatActivity() {
             thread {
                 try {
                     var keyUrl: String = "" + xq + "/" + xq + month + day
-                    var url: String = "https://bistutu.github.io/formEmpty/" + keyUrl + ".json"
+                    var url: String = "https://bistutu.github.io/emptyData/" + keyUrl + ".json"
                     responseData = okhttp_model.send(url).toString()
                 } catch (e: Exception) {
                 }
@@ -243,7 +263,7 @@ class MainActivity : AppCompatActivity() {
             thread {
                 try {
                     var keyUrl: String = "" + xq + "/" + xq + month + day
-                    var url: String = "https://bistutu.github.io/formEmpty/" + keyUrl + ".json"
+                    var url: String = "https://bistutu.github.io/emptyData/" + keyUrl + ".json"
                     responseData = okhttp_model.send(url).toString()
                 } catch (e: Exception) {
                 }
@@ -261,16 +281,21 @@ class MainActivity : AppCompatActivity() {
                     Toast.makeText(this, "你选择了 " + items[which], Toast.LENGTH_SHORT).show()
                     xq_selector.text = items[which]
                     xq = which + 1
+                    if (xq == 1)
+                        xy_selector.visibility = View.VISIBLE
+                    else
+                        xy_selector.visibility = View.GONE
                     editor.putInt("campus", which)
                     editor.apply()
                     responseData = null
                     thread {
-                        try{
+                        try {
                             var keyUrl: String = "" + xq + "/" + xq + month + day
-                            var url: String = "https://bistutu.github.io/formEmpty/" + keyUrl + ".json"
+                            var url: String =
+                                "https://bistutu.github.io/emptyData/" + keyUrl + ".json"
                             responseData = okhttp_model.send(url).toString()
+                        } catch (e: Exception) {
                         }
-                        catch (e:Exception){}
                     }
 
                     dialog.dismiss()
@@ -375,68 +400,6 @@ class MainActivity : AppCompatActivity() {
         night.isChecked = true
     }
 
-    //recyclerView Adapter
-    class emptyListAdapter(val context: Context, val emptyList: List<empty_list>, val xq: Int) :
-        RecyclerView.Adapter<emptyListAdapter.ViewHolder>() {
-        inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-            val cardtv1 = view.cardtv1;
-            val cardtv2 = view.cardtv2
-            val cardtv3 = view.cardtv3;
-            val cardtv4 = view.cardtv4
-            val mc1 = view.mc1;
-            val mc2 = view.mc2
-            val mc3 = view.mc3;
-            val mc4 = view.mc4
-
-        }
-
-        override fun onCreateViewHolder(
-            parent: ViewGroup, viewType: Int
-        ): emptyListAdapter.ViewHolder {
-            val view =
-                LayoutInflater.from(context).inflate(R.layout.recycler_view_model, parent, false)
-            return ViewHolder(view)
-        }
-
-        override fun onBindViewHolder(holder: emptyListAdapter.ViewHolder, position: Int) {
-            val empty = emptyList[position]
-
-            //这一步是因为我发现现在recyclerView有一些性能瓶颈，所以做了一些”小优化“
-            if (xq == 2 || xq == 3) {
-                holder.cardtv1.setTextSize(TypedValue.COMPLEX_UNIT_SP, 15F);
-                holder.cardtv2.setTextSize(TypedValue.COMPLEX_UNIT_SP, 15F);
-                holder.cardtv3.setTextSize(TypedValue.COMPLEX_UNIT_SP, 15F);
-                holder.cardtv4.setTextSize(TypedValue.COMPLEX_UNIT_SP, 15F);
-                holder.cardtv1.setPadding(15, 15, 15, 15)
-                holder.cardtv2.setPadding(15, 15, 15, 15)
-                holder.cardtv3.setPadding(15, 15, 15, 15)
-                holder.cardtv4.setPadding(15, 15, 15, 15)
-            } else {
-                holder.cardtv1.setPadding(5, 5, 5, 5)
-                holder.cardtv2.setPadding(5, 5, 5, 5)
-                holder.cardtv3.setPadding(5, 5, 5, 5)
-                holder.cardtv4.setPadding(5, 5, 5, 5)
-            }
-            //recyclerView中”蓝“条的产生
-            if (empty.em1.equals("1")) {
-                holder.mc1.visibility = View.GONE
-                holder.mc3.visibility = View.GONE
-                holder.mc4.visibility = View.GONE
-                holder.cardtv2.text = empty.em2
-                holder.cardtv2.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16F);
-                holder.mc2.setBackgroundResource(R.color.split)
-            } else {
-                holder.cardtv1.text = empty.em1;holder.cardtv2.text = empty.em2
-                holder.cardtv3.text = empty.em3;holder.cardtv4.text = empty.em4
-            }
-
-
-        }
-
-        override fun getItemCount(): Int = emptyList.size
-    }
-    //recycylerView Adapter结束
-
     //网络请求成功时的操作 (渲染recyclerView)
     private fun showSuccess(loadGo: Dialog, loadSuccess: Dialog) {
         runOnUiThread {
@@ -452,14 +415,25 @@ class MainActivity : AppCompatActivity() {
                 val timeList = ArrayList<empty_list>()
                 var isTime = 0
                 var isOneLine = 1
+                var isXySelect=0
                 for (i in listArray) {
                     if (i.em4.equals("" + time))
                         isTime = 1
                     if (i.em4.equals("" + (time + 1)))
                         isTime = 0
                     if (isTime != 0) {
-                        if (isOneLine != 1)
-                            timeList.add(i)
+                        if (isOneLine != 1) {
+                            if (xq == 1) {
+                                if(i.em3.equals(""+xy_select))
+                                    isXySelect=1
+                                if(i.em3.equals(""+(xy_select+1)))
+                                    isXySelect=0
+                                if (isXySelect==1){
+                                    timeList.add(i)
+                                }
+                            } else
+                                timeList.add(i)
+                        }
                         isOneLine = 0
                     }
                 }
@@ -525,7 +499,6 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-
     private fun updateDialog(updateData: updateObject, judge: Int) {
         runOnUiThread {
             if (judge == 0) {
@@ -589,5 +562,8 @@ class MainActivity : AppCompatActivity() {
     val layoutManager = LinearLayoutManager(this)
 
     var responseData: String? = null
+
+    //定义一个xy_selector的辅助变量
+    var xy_select = 0
 }
 /*  结束  */

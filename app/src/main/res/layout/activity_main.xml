@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:orientation="vertical"
     tools:context=".MainActivity">
 
@@ -38,27 +38,28 @@
             android:id="@+id/xq_selector"
             android:layout_width="150dp"
             android:layout_height="35dp"
-            android:paddingLeft="10dp"
             android:background="@drawable/xq_button"
             android:drawableRight="@drawable/ic_baseline_keyboard_arrow_down_24"
             android:gravity="center|center_vertical"
+            android:paddingLeft="10dp"
             android:text="小营校区"></Button>
+
         <TextView
             android:layout_width="0dp"
-            android:layout_weight="1"
             android:layout_height="match_parent"
+            android:layout_weight="1"
             android:visibility="visible">
 
         </TextView>
+
         <Button
             android:id="@+id/declareButton"
             android:layout_width="wrap_content"
             android:layout_height="30dp"
             android:background="#00000000"
-            android:text="查询声明"
-            android:textColor="@color/qmui_config_color_red"
             android:gravity="center_vertical|center"
-            ></Button>
+            android:text="查询声明"
+            android:textColor="@color/qmui_config_color_red"></Button>
     </LinearLayout>
 
     <!--    日期选择器-->
@@ -150,6 +151,42 @@
             android:layout_height="match_parent"
             android:layout_marginRight="5dp"
             android:text="晚上"></CheckBox>
+
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/xy_selector"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="visible"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:text="教学楼："
+            android:textColor="@color/black"
+            android:textSize="16sp"></TextView>
+        <RadioGroup
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@+id/one"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginRight="10dp"
+                android:text="一教"></RadioButton>
+
+            <RadioButton
+                android:id="@+id/noOne"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="二教、四教"></RadioButton>
+        </RadioGroup>
     </LinearLayout>
     <!--"查询"按钮-->
     <Button
@@ -177,6 +214,7 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"></androidx.recyclerview.widget.RecyclerView>
-
+        android:layout_height="match_parent"
+        android:isScrollContainer="true"
+        android:scrollbars="vertical" />
 </LinearLayout><!--布局结束-->
