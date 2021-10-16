@@ -7,8 +7,12 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
-    <color name="logoColor">#FF6699CC</color>
-    <color name="contentColor">#FF99CCFF</color>
-    <color name="split">#9999CCFF</color>
+    <color name="logoColor">#6699CC</color>
+    <color name="mipmapColor">#FF99CCFF</color>
+    <color name="split0">#9999CCFF</color>
+    <color name="split1">#99FFFF66</color>
+    <color name="split2">#9966CCCC</color>
+    <color name="btPressColor">#996699CC</color>
+    <color name="btPressBorderColor">#995599CC</color>
 
 </resources>

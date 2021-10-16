@@ -32,7 +32,7 @@ class MainActivity : AppCompatActivity() {
         thread {
             try {
                 val isUpdateJSON =
-                    okhttp_model.send("https://bistutu.github.io/BistutuApk/update.json")
+                    okhttp_model.send("https://thinkstu.com/update.json")
                 val updateData = gson.fromJson(isUpdateJSON, updateObject::class.java)
                 //获取用户的现在软件版本号
                 val manager = this.getPackageManager();
@@ -55,7 +55,6 @@ class MainActivity : AppCompatActivity() {
         //xy_selector默认选择
         xy_select = prefs.getInt("xy_select", 0)
         //xy的教学楼选择方法
-        xyMethod(editor)
 
         //这是一个方法，我放在了最后面。每次打开软件都会默认选择 “今天”  和  “全天”
         defaultSelected()
@@ -112,7 +111,7 @@ class MainActivity : AppCompatActivity() {
                         try {
                             var keyUrl: String = "" + xq + "/" + xq + month + day
                             var url: String =
-                                "https://bistutu.github.io/emptyData/" + keyUrl + ".json"
+                                "https://thinkstu.com/" + keyUrl + ".json"
                             responseData = okhttp_model.send(url).toString()
                             date.text =
                                 "你所查询的日期为：" + month + "月" + day + "日" + "(" + weekString + ")  " + timeString
@@ -130,75 +129,6 @@ class MainActivity : AppCompatActivity() {
             } catch (e: Exception) {
 
             }
-        }
-        //右上角的”查询声明“Button
-        declareButton.setOnClickListener {
-            when (xq) {
-                1 -> {
-                    MessageDialogBuilder(this)
-                        .setTitle("小营校区查询的范围为：")
-                        .setMessage(
-                            "（1）一教全部\n" +
-                                    "（2）二教全部\n" +
-                                    "（3）四教全部\n\n" +
-                                    "\t数据来自于教务网，不排除被临时占用的情况，仅供参考"
-                        )
-                        .addAction(
-                            "已阅~"
-                        ) { dialog, index -> dialog.dismiss() }
-                        .show()
-                }
-                2 -> {
-                    MessageDialogBuilder(this)
-                        .setTitle("健翔桥校区查询的范围为：")
-                        .setMessage(
-                            "（1）一教阶梯教室\n" +
-                                    "（2）二教全部\n" +
-                                    "（3）三教阶梯教室\n\n" +
-                                    "\t数据来自于教务网，不排除被临时占用的情况，仅供参考"
-                        )
-                        .addAction(
-                            "已阅~"
-                        ) { dialog, index -> dialog.dismiss() }
-                        .show()
-                }
-                3 -> {
-                    MessageDialogBuilder(this)
-                        .setTitle("清河校区查询的范围为：")
-                        .setMessage(
-                            "（1）一教全部\n" +
-                                    "（2）二教全部\n" +
-                                    "（3）三教全部\n\n" +
-                                    "\t数据来自于教务网，不排除被临时占用的情况，仅供参考"
-                        )
-                        .addAction(
-                            "已阅~"
-                        ) { dialog, index -> dialog.dismiss() }
-                        .show()
-                }
-            }
-        }
-    }
-
-    private fun xyMethod(editor: SharedPreferences.Editor) {
-        if (xy_select == 0)
-            one.isChecked = true
-        else
-            noOne.isChecked = true
-        //判断是否显示xy_selector
-        if (xq == 1)
-            xy_selector.visibility = View.VISIBLE
-        else
-            xy_selector.visibility = View.GONE
-        one.setOnClickListener {
-            xy_select = 0
-            editor.putInt("xy_select", xy_select)
-            editor.apply()
-        }
-        noOne.setOnClickListener {
-            xy_select = 1
-            editor.putInt("xy_select", xy_select)
-            editor.apply()
         }
     }
     /*onCreate()方法结束*/
@@ -221,7 +151,7 @@ class MainActivity : AppCompatActivity() {
             thread {
                 try {
                     var keyUrl: String = "" + xq + "/" + xq + month + day
-                    var url: String = "https://bistutu.github.io/emptyData/" + keyUrl + ".json"
+                    var url: String = "https://thinkstu.com/" + keyUrl + ".json"
                     responseData = okhttp_model.send(url).toString()
                 } catch (e: Exception) {
                 }
@@ -242,7 +172,7 @@ class MainActivity : AppCompatActivity() {
             thread {
                 try {
                     var keyUrl: String = "" + xq + "/" + xq + month + day
-                    var url: String = "https://bistutu.github.io/emptyData/" + keyUrl + ".json"
+                    var url: String = "https://thinkstu.com/" + keyUrl + ".json"
                     responseData = okhttp_model.send(url).toString()
                 } catch (e: Exception) {
                 }
@@ -263,7 +193,7 @@ class MainActivity : AppCompatActivity() {
             thread {
                 try {
                     var keyUrl: String = "" + xq + "/" + xq + month + day
-                    var url: String = "https://bistutu.github.io/emptyData/" + keyUrl + ".json"
+                    var url: String = "https://thinkstu.com/" + keyUrl + ".json"
                     responseData = okhttp_model.send(url).toString()
                 } catch (e: Exception) {
                 }
@@ -281,10 +211,6 @@ class MainActivity : AppCompatActivity() {
                     Toast.makeText(this, "你选择了 " + items[which], Toast.LENGTH_SHORT).show()
                     xq_selector.text = items[which]
                     xq = which + 1
-                    if (xq == 1)
-                        xy_selector.visibility = View.VISIBLE
-                    else
-                        xy_selector.visibility = View.GONE
                     editor.putInt("campus", which)
                     editor.apply()
                     responseData = null
@@ -292,7 +218,7 @@ class MainActivity : AppCompatActivity() {
                         try {
                             var keyUrl: String = "" + xq + "/" + xq + month + day
                             var url: String =
-                                "https://bistutu.github.io/emptyData/" + keyUrl + ".json"
+                                "https://thinkstu.com/" + keyUrl + ".json"
                             responseData = okhttp_model.send(url).toString()
                         } catch (e: Exception) {
                         }
@@ -417,27 +343,30 @@ class MainActivity : AppCompatActivity() {
                 var isOneLine = 1
                 var isXySelect=0
                 for (i in listArray) {
-                    if (i.em4.equals("" + time))
+                    if (i.d.equals("" + time))
                         isTime = 1
-                    if (i.em4.equals("" + (time + 1)))
+                    if (i.d.equals("" + (time + 1)))
                         isTime = 0
                     if (isTime != 0) {
                         if (isOneLine != 1) {
-                            if (xq == 1) {
-                                if(i.em3.equals(""+xy_select))
+                            //废除之前对小营专门做的适配
+                            /*if (xq == 1) {
+                                if(i.c.equals(""+xy_select))
                                     isXySelect=1
-                                if(i.em3.equals(""+(xy_select+1)))
+                                if(i.c.equals(""+(xy_select+1)))
                                     isXySelect=0
                                 if (isXySelect==1){
                                     timeList.add(i)
                                 }
-                            } else
+                            } else*/
+                            //废除之前对小营专门做的适配
                                 timeList.add(i)
                         }
                         isOneLine = 0
                     }
                 }
                 recyclerView.layoutManager = layoutManager
+                recyclerView.setItemViewCacheSize(1000);
                 val adapter = emptyListAdapter(this, timeList, xq)
                 recyclerView.adapter = adapter
             } catch (e: Exception) {
@@ -473,7 +402,7 @@ class MainActivity : AppCompatActivity() {
                 thread {
                     try {
                         val isUpdateJSON =
-                            okhttp_model.send("https://bistutu.github.io/BistutuApk/update.json")
+                            okhttp_model.send("https://thinkstu.com/update.json")
                         val updateData = gson.fromJson(isUpdateJSON, updateObject::class.java)
                         //获取用户现在的软件版本号
                         val manager = this.getPackageManager();
