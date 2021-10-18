@@ -366,7 +366,7 @@ class MainActivity : AppCompatActivity() {
                     }
                 }
                 recyclerView.layoutManager = layoutManager
-                recyclerView.setItemViewCacheSize(1000);
+                recyclerView.setItemViewCacheSize(200);
                 val adapter = emptyListAdapter(this, timeList, xq)
                 recyclerView.adapter = adapter
             } catch (e: Exception) {
