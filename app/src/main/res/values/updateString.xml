@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="updateString">
-        V 2.0.0	（2021.10.16）\n\t\t1. 优化了查询的数据\n\t\t2. 重写内核算法\n\t\t3. 服务器整体迁至北京\n\t\t4. 修复了一些Bug\n\nV 1.2.0	（2021.10.11）\n\t\t优化小营校区查询数据\n\nV 1.1.0	（2021.10.10）\n\t\t1.优化了算法，提升响应速度\n\t\t2.修复了一些Bug\n\nV 1.0.0	（2021.10.08）\n\t\tBistutu正式发布。\n</string>
+        V 2.0	（2021.10.16）\n\t\t1. 优化了查询数据\n\t\t2. 重写了查询算法\n\t\t3. 服务器迁至北京\n\t\t4. 修复了一些Bug\n\nV 1.2	（2021.10.11）\n\t\t1. 优化小营校区查询数据\n\nV 1.1	（2021.10.10）\n\t\t1.优化算法，提升响应速度\n\t\t2.修复了一些Bug\n\nV 1.0	（2021.10.08）\n\t\tBistutu正式发布。\n</string>
 </resources>
