@@ -21,7 +21,6 @@ import java.util.*
 import kotlin.collections.ArrayList
 import kotlin.concurrent.thread
 import com.qmuiteam.qmui.widget.dialog.QMUIDialog.MessageDialogBuilder
-
 class MainActivity : AppCompatActivity() {
     //全局变量均放在了最末尾
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -46,6 +45,7 @@ class MainActivity : AppCompatActivity() {
                 //不执行任何操作
             }
         }
+
         //SharedPreferences，这里用来设置每次打开软件时默认选择的校区
         val editor = getPreferences(MODE_PRIVATE).edit()
         val prefs = getPreferences(MODE_PRIVATE)
