@@ -12,15 +12,13 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import kotlinx.android.synthetic.main.activity_main.*
-
-import com.qmuiteam.qmui.widget.dialog.QMUIDialog.MenuDialogBuilder
 import com.qmuiteam.qmui.widget.dialog.QMUITipDialog
 import kotlinx.android.synthetic.main.recycler_view_model.view.*
 import java.lang.Exception
 import java.util.*
 import kotlin.collections.ArrayList
 import kotlin.concurrent.thread
-import com.qmuiteam.qmui.widget.dialog.QMUIDialog.MessageDialogBuilder
+import com.qmuiteam.qmui.widget.dialog.QMUIDialog.*
 class MainActivity : AppCompatActivity() {
     //全局变量均放在了最末尾
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -45,7 +43,6 @@ class MainActivity : AppCompatActivity() {
                 //不执行任何操作
             }
         }
-
         //SharedPreferences，这里用来设置每次打开软件时默认选择的校区
         val editor = getPreferences(MODE_PRIVATE).edit()
         val prefs = getPreferences(MODE_PRIVATE)
@@ -54,8 +51,6 @@ class MainActivity : AppCompatActivity() {
         xq_selector.text = items[xq - 1]
         //xy_selector默认选择
         xy_select = prefs.getInt("xy_select", 0)
-        //xy的教学楼选择方法
-
         //这是一个方法，我放在了最后面。每次打开软件都会默认选择 “今天”  和  “全天”
         defaultSelected()
         //四个CheckButton的选择事件
@@ -139,6 +134,7 @@ class MainActivity : AppCompatActivity() {
             day = gregorianCalendar.get(Calendar.DAY_OF_MONTH)
             //判断星期几
             weekDay = gregorianCalendar.get(Calendar.DAY_OF_WEEK) - 1
+            month=gregorianCalendar.get(Calendar.MONTH)+1
             responseData = null
             btSearch.setBackgroundResource(R.drawable.ellipse_button_initial)
             btSearch.text = "正在加载中..."
@@ -158,8 +154,32 @@ class MainActivity : AppCompatActivity() {
             }
         }
         tomorrow.setOnClickListener {
-            day = gregorianCalendar.get(Calendar.DAY_OF_MONTH) + 1
             weekDay = gregorianCalendar.get(Calendar.DAY_OF_WEEK)
+            day = gregorianCalendar.get(Calendar.DAY_OF_MONTH) + 1
+            month=gregorianCalendar.get(Calendar.MONTH)+1
+            when(month){
+                1,3,5,7,8,10,12->{
+                    if (day==32){
+                        month+=1;day=1
+                    }
+                }
+                2->{
+                    if (gregorianCalendar.isLeapYear(gregorianCalendar.get(Calendar.YEAR))){
+                        if(day==30){
+                            day=1;month+=1
+                        }
+                    }
+                    else{
+                        if (day==29){
+                            day=1;month+=1
+                        }
+                    }
+                }
+                4,6,9,11->{
+                    if (day==31){
+                        day=1;month+=1
+                    }
+                }}
             responseData = null
             btSearch.setBackgroundResource(R.drawable.ellipse_button_initial)
             btSearch.text = "正在加载中..."
@@ -179,8 +199,44 @@ class MainActivity : AppCompatActivity() {
             }
         }
         afterTomorrow.setOnClickListener {
-            day = gregorianCalendar.get(Calendar.DAY_OF_MONTH) + 2
             weekDay = (gregorianCalendar.get(Calendar.DAY_OF_WEEK) + 1) % 7
+            month=gregorianCalendar.get(Calendar.MONTH)+1
+            day = gregorianCalendar.get(Calendar.DAY_OF_MONTH) + 2
+            when(month){
+                1,3,5,7,8,10,12->{
+                    if (day==32){
+                        month+=1;day=1
+                    }
+                    if(day==33){
+                        month+=1;day=2
+                    }
+                }
+                2->{
+                    if (gregorianCalendar.isLeapYear(gregorianCalendar.get(Calendar.YEAR))){
+                        if(day==30){
+                            day=1;month+=1
+                        }
+                        if(day==31){
+                            day=2;month+=1
+                        }
+                    }
+                    else{
+                        if (day==29){
+                            day=1;month+=1
+                        }
+                        if (day==30){
+                            day=2;month+=1
+                        }
+                    }
+                }
+                4,6,9,11->{
+                    if (day==31){
+                        day=1;month+=1
+                    }
+                    if (day==32){
+                        day=2;month+=1
+                    }
+                }}
             responseData = null
             btSearch.setBackgroundResource(R.drawable.ellipse_button_initial)
             btSearch.text = "正在加载中..."
@@ -480,7 +536,6 @@ class MainActivity : AppCompatActivity() {
     val gregorianCalendar = GregorianCalendar()
     var month: Int = gregorianCalendar.get(Calendar.MONTH) + 1
     var day: Int = gregorianCalendar.get(Calendar.DAY_OF_MONTH)
-
     //判断所查询的日期为星期几
     var weekString = ""
     var weekDay: Int = gregorianCalendar.get(Calendar.DAY_OF_WEEK) - 1

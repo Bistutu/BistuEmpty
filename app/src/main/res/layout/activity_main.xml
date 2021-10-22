@@ -43,7 +43,6 @@
             android:gravity="center|center_vertical"
             android:paddingLeft="10dp"
             android:text="小营校区"></Button>
-
         <TextView
             android:layout_width="0dp"
             android:layout_height="match_parent"
