@@ -59,7 +59,6 @@ class MainActivity : AppCompatActivity() {
         xq_selector(items, editor)
         //日期选择事件
         date_selector()
-
         //按下查询按钮
         btSearch.setOnClickListener {
             //如果用户没有选择一个时段（time），这里就会发出一个警告
@@ -498,7 +497,7 @@ class MainActivity : AppCompatActivity() {
                 .addAction(
                     "立即更新"
                 ) { dialog, index ->
-                    Toast.makeText(this, "正在打开下载网址~", Toast.LENGTH_LONG).show()
+                    Toast.makeText(this, "正在打开下载地址~", Toast.LENGTH_LONG).show()
                     val intent = Intent(Intent.ACTION_VIEW)
                     intent.data = Uri.parse(updateData.updateUrl)
                     startActivity(intent)

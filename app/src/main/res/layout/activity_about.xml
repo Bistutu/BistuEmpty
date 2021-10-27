@@ -62,7 +62,7 @@
             android:layout_height="wrap_content"
             android:paddingLeft="15dp"
             android:paddingRight="10dp"
-            android:text="github开源地址：（跳转至浏览器打开）"
+            android:text="Github开源链接"
             android:textSize="16sp"
             android:gravity="left|center_vertical"
             android:drawableRight="@drawable/ic_baseline_keyboard_arrow_right_24"
@@ -122,6 +122,21 @@
             android:layout_width="match_parent"
             android:layout_height="1.5dp"
             android:background="@drawable/about_border"></TextView>
+<TextView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:text="如果你觉得软件好用，可以分享给更多的小伙伴！"
+    android:textSize="14sp"
+    android:layout_marginTop="10dp"
+    android:gravity="center|center_vertical"
+    android:textColor="#CCCCCC"></TextView>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="你的分享就是给予作者最大的支持！"
+            android:textSize="15sp"
+            android:gravity="center|center_vertical"
+            android:textColor="#CCCCCC"></TextView>
 
     </LinearLayout>
 
@@ -130,7 +145,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:textSize="12sp"
+        android:textSize="14sp"
         android:textColor="#CCCCCC"></TextView>
     <TextView
         android:layout_width="match_parent"
@@ -138,6 +153,7 @@
         android:gravity="center"
         android:layout_marginBottom="10dp"
         android:textColor="#CCCCCC"
+        android:textSize="14sp"
         android:text="© 2021 Bistutu All right reserved.">
 
     </TextView>
