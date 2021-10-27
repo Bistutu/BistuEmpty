@@ -66,6 +66,7 @@ class MainActivity : AppCompatActivity() {
                 Toast.makeText(this, "请选择一个时段~", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
+
             /*创建三个提示的dialog，以待备用
             * 分别是：loadGo正在查询    loadSuccess查询成功     loadFaile查询失败，请检查网络连接*/
             val (loadGo, loadSuccess, loadFaile) = triple_dialog()
@@ -116,7 +117,7 @@ class MainActivity : AppCompatActivity() {
                                 Runnable { loadGo.dismiss();loadFaile.show() },
                                 1000
                             )
-                            btSearch.postDelayed(Runnable { loadFaile.dismiss() }, 2000)
+                            btSearch.postDelayed(Runnable { loadFaile.dismiss() }, 4000)
                         }
                     }
                 }
@@ -404,17 +405,6 @@ class MainActivity : AppCompatActivity() {
                         isTime = 0
                     if (isTime != 0) {
                         if (isOneLine != 1) {
-                            //废除之前对小营专门做的适配
-                            /*if (xq == 1) {
-                                if(i.c.equals(""+xy_select))
-                                    isXySelect=1
-                                if(i.c.equals(""+(xy_select+1)))
-                                    isXySelect=0
-                                if (isXySelect==1){
-                                    timeList.add(i)
-                                }
-                            } else*/
-                            //废除之前对小营专门做的适配
                                 timeList.add(i)
                         }
                         isOneLine = 0
@@ -424,6 +414,7 @@ class MainActivity : AppCompatActivity() {
                 recyclerView.setItemViewCacheSize(200);
                 val adapter = emptyListAdapter(this, timeList, xq)
                 recyclerView.adapter = adapter
+                splitLine.visibility=View.VISIBLE
             } catch (e: Exception) {
                 btSearch.postDelayed(Runnable {
                     loadSuccess.dismiss();
@@ -491,7 +482,7 @@ class MainActivity : AppCompatActivity() {
             }
             Toast.makeText(this, "新版本来了~", Toast.LENGTH_SHORT).show()
             MessageDialogBuilder(this)
-                .setTitle("新版本来了~")
+                .setTitle("最新版本")
                 .setMessage(updateData.updateMessage)
                 .setCanceledOnTouchOutside(false)
                 .addAction(

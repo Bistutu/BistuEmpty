@@ -164,7 +164,17 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
+        android:layout_marginBottom="0dp"
         android:textSize="14dp"></TextView>
+    <TextView
+        android:id="@+id/splitLine"
+        android:layout_width="match_parent"
+        android:layout_height="1.5dp"
+        android:layout_marginTop="0dp"
+        android:visibility="invisible"
+        android:background="@drawable/about_border"></TextView>
+
+
 
     <!--空教室数据的RecyclerView主体-->
     <androidx.recyclerview.widget.RecyclerView
