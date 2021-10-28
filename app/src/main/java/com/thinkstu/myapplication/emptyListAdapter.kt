@@ -30,7 +30,7 @@ class emptyListAdapter(val context: Context, val emptyList: List<empty_list>, va
     override fun onBindViewHolder(holder: emptyListAdapter.ViewHolder, position: Int) {
         val empty = emptyList[position]
         //recyclerView中”蓝“条的产生
-        if (empty.a.equals("1")) {
+        if (empty.a.equals("1")||empty.d.equals("11")) {
             holder.mc1.visibility = View.GONE
             holder.mc3.visibility = View.GONE
             holder.mc4.visibility = View.GONE
@@ -41,12 +41,7 @@ class emptyListAdapter(val context: Context, val emptyList: List<empty_list>, va
             "1"->holder.mc2.setBackgroundResource(R.color.split1  )
             "2"->holder.mc2.setBackgroundResource(R.color.split2  )
         }
-        if(empty.d.equals("11")){
-            holder.mc1.visibility = View.GONE
-            holder.mc3.visibility = View.GONE
-            holder.mc4.visibility = View.GONE
-            holder.cardtv2.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16F);
-        }
+
         if(empty.d.equals("10")){
             holder.mc3.visibility = View.GONE
             holder.mc4.visibility = View.GONE
