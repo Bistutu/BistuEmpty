@@ -15,9 +15,6 @@ import com.qmuiteam.qmui.widget.dialog.QMUIDialog.MessageDialogBuilder
 
 import com.qmuiteam.qmui.widget.dialog.QMUIDialogAction
 
-
-
-
 class about : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {

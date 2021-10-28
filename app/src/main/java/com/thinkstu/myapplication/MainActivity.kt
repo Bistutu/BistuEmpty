@@ -106,7 +106,7 @@ class MainActivity : AppCompatActivity() {
                         try {
                             var keyUrl: String = "" + xq + "/" + xq + month + day
                             var url: String =
-                                "https://thinkstu.com/" + keyUrl + ".json"
+                                "https://bistutu.github.io/transferData/" + keyUrl + ".json"
                             responseData = okhttp_model.send(url).toString()
                             date.text =
                                 "你所查询的日期为：" + month + "月" + day + "日" + "(" + weekString + ")  " + timeString
@@ -147,7 +147,7 @@ class MainActivity : AppCompatActivity() {
             thread {
                 try {
                     var keyUrl: String = "" + xq + "/" + xq + month + day
-                    var url: String = "https://thinkstu.com/" + keyUrl + ".json"
+                    var url: String = "https://bistutu.github.io/transferData/" + keyUrl + ".json"
                     responseData = okhttp_model.send(url).toString()
                 } catch (e: Exception) {
                 }
@@ -192,7 +192,7 @@ class MainActivity : AppCompatActivity() {
             thread {
                 try {
                     var keyUrl: String = "" + xq + "/" + xq + month + day
-                    var url: String = "https://thinkstu.com/" + keyUrl + ".json"
+                    var url: String = "https://bistutu.github.io/transferData/" + keyUrl + ".json"
                     responseData = okhttp_model.send(url).toString()
                 } catch (e: Exception) {
                 }
@@ -249,7 +249,7 @@ class MainActivity : AppCompatActivity() {
             thread {
                 try {
                     var keyUrl: String = "" + xq + "/" + xq + month + day
-                    var url: String = "https://thinkstu.com/" + keyUrl + ".json"
+                    var url: String = "https://bistutu.github.io/transferData/" + keyUrl + ".json"
                     responseData = okhttp_model.send(url).toString()
                 } catch (e: Exception) {
                 }
@@ -274,7 +274,7 @@ class MainActivity : AppCompatActivity() {
                         try {
                             var keyUrl: String = "" + xq + "/" + xq + month + day
                             var url: String =
-                                "https://thinkstu.com/" + keyUrl + ".json"
+                                "https://bistutu.github.io/transferData/" + keyUrl + ".json"
                             responseData = okhttp_model.send(url).toString()
                         } catch (e: Exception) {
                         }
