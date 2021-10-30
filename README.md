@@ -20,12 +20,20 @@ Bistutu空教室查询
 
 ![](https://i.loli.net/2021/10/29/FfK5bIWgsAm7NBt.png)
 
-## 使用到的第三方库
+## 客户端使用到的第三方库
 
 ```
-1. QMUI 界面设计
-2. okhttp3 网络请求
-3. Gson JSON数据解析
+1. Gradle 开发框架
+3. okhttp3 网络请求
+4. Gson JSON数据解析
+5. QMUI 界面设计
+```
+
+## 服务器端使用到的第三方库
+
+```
+1. Maven 开发框架
+2. fastJSON JSOn数据解析
 ```
 
 ## License
