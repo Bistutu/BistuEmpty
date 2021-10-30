@@ -33,7 +33,7 @@ Bistutu空教室查询
 
 ```
 1. Maven 开发框架
-2. fastJSON JSOn数据解析
+2. fastJSON JSON数据解析
 ```
 
 ## License
