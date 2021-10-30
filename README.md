@@ -11,9 +11,7 @@ Bistutu空教室查询
 
 ![](https://i.loli.net/2021/10/23/KQya2HZPYOD3N1E.jpg)
 
-## 软件界面截图 
 
-![](https://thinkstu.com/animation.gif)
 
 ## 客户端-服务器端交互示意图 
 
