@@ -8,7 +8,12 @@ Bistutu空教室查询
 本软件适用于北京信息科技大学空教室查询，开发此软件是为了能够帮助小伙伴们迅速找到空教室。
 
 ## 软件界面截图 
+
 ![](https://i.loli.net/2021/10/23/KQya2HZPYOD3N1E.jpg)
+
+## 软件界面截图 
+
+![](https://thinkstu.com/animation.gif)
 
 ## 客户端-服务器端交互示意图 
 
