@@ -35,14 +35,16 @@ class about : AppCompatActivity() {
                 .setMessage("即将跳转至浏览器打开网页，是否确定？")
                 .addAction(
                     "取消"
-                ) { dialog, index -> dialog.dismiss() }
+                ) { dialog, index -> dialog.dismiss()
+                }
                 .addAction(
                     "确定"
                 ) { dialog, index -> dialog.dismiss()
                     val intent=Intent(Intent.ACTION_VIEW)
-                    intent.data=Uri.parse("https://github.com/Bistutu/emptyClassroom")
+                    intent.data=Uri.parse("https://github.com/Bistutu/BistuEmpty")
                     startActivity(intent)
-                    Toast.makeText(this,"正在打开github",Toast.LENGTH_LONG).show()}
+                    Messages.emitShort(this,"正在打开github")
+                    }
                 .show()
 
         }

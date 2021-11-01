@@ -16,9 +16,7 @@
             android:layout_height="match_parent"
             android:drawableLeft="@drawable/ic_baseline_keyboard_backspace_24"
             android:background="@drawable/about_back_selector"
-            android:layout_marginLeft="10dp"
-            android:textSize="20sp"
-            android:height="50dp">
+            android:layout_marginLeft="10dp">
         </Button>
         <TextView
             android:layout_width="0dp"
@@ -51,7 +49,6 @@
             android:textColor="@color/logoColor"
             android:gravity="center|center_vertical"></TextView>
 
-
         <TextView
             android:layout_width="match_parent"
             android:layout_height="1.5dp"
@@ -62,29 +59,12 @@
             android:layout_height="wrap_content"
             android:paddingLeft="15dp"
             android:paddingRight="10dp"
-            android:text="Github开源链接"
+            android:text="Github开源地址"
             android:textSize="16sp"
             android:gravity="left|center_vertical"
             android:drawableRight="@drawable/ic_baseline_keyboard_arrow_right_24"
             android:background="@drawable/about_selector">
         </Button>
-<!--        微信公众号的button-->
-<!--        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="1.5dp"
-            android:background="@drawable/about_border"></TextView>
-        <Button
-            android:id="@+id/wx"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingLeft="15dp"
-            android:paddingRight="10dp"
-            android:text="微信公众号：Bistutu（点击复制）"
-            android:textSize="16sp"
-            android:gravity="left|center_vertical"
-            android:drawableRight="@drawable/ic_baseline_keyboard_arrow_right_24"
-            android:background="@drawable/about_selector">
-        </Button>-->
 
         <TextView
             android:layout_width="match_parent"

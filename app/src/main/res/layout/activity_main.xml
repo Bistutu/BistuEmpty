@@ -102,7 +102,6 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
         android:layout_marginTop="5dp"
-        android:layout_marginRight="10dp"
         android:layout_marginBottom="5dp"
         android:orientation="horizontal">
 
@@ -158,7 +157,7 @@
         android:textColor="@color/white"
         android:textSize="18sp"></Button>
 
-    <!--点击“查询空教室”按钮，底下会出现的一行提示小字-->
+    <!--infoMessages，查询信息的提示-->
     <TextView
         android:id="@+id/date"
         android:layout_width="match_parent"
@@ -173,9 +172,6 @@
         android:layout_marginTop="0dp"
         android:visibility="invisible"
         android:background="@drawable/about_border"></TextView>
-
-
-
     <!--空教室数据的RecyclerView主体-->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
