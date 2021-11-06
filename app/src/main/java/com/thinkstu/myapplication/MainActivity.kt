@@ -21,15 +21,15 @@ import kotlin.concurrent.thread
 import com.qmuiteam.qmui.widget.dialog.QMUIDialog.*
 
 class MainActivity : AppCompatActivity() {
-    // 所有的全局变量均放在了最末尾，所以这里是看不到这些变量
+    // 所有的全局变量均放在了最末尾，所以这里是看不到这些变量的
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setSupportActionBar(tb1)
-        // onCreate()首先发起okhttp3网络请求，判断软件是否需要更新
+        // 首先发起网络请求，判断软件是否需要更新
         thread {
             try {
-                val isUpdateJSON = okhttp_model.send("https://thinkstu.com/update.json")
+                val isUpdateJSON = okhttp_model.send("https://bistutu.github.io/BistutuUpdate/update.json")
                 val updateData = gson.fromJson(isUpdateJSON, updateObject::class.java)
                 // 获取用户的现在软件版本号
                 val manager = this.getPackageManager();
@@ -426,7 +426,7 @@ class MainActivity : AppCompatActivity() {
                 thread {
                     try {
                         val isUpdateJSON =
-                            okhttp_model.send("https://thinkstu.com/update.json")
+                            okhttp_model.send("https://bistutu.github.io/BistutuUpdate/update.json")
                         val updateData = gson.fromJson(isUpdateJSON, updateObject::class.java)
                         //获取用户现在的软件版本号
                         val manager = this.getPackageManager();

@@ -48,11 +48,7 @@ class about : AppCompatActivity() {
                 .show()
 
         }
-        /*wx.setOnClickListener {
-            val cm = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-            cm.text="Bistutu"
-            Toast.makeText(this,"已复制“Bistutu”",Toast.LENGTH_LONG).show()
-        }*/
+
         update.setOnClickListener {
             MessageDialogBuilder(this)
                 .setTitle("更新日志")
@@ -63,9 +59,11 @@ class about : AppCompatActivity() {
                 .show()
         }
         contact.setOnClickListener {
+            contact.isClickable=false
             val cm = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
             cm.text="githubson"
             Toast.makeText(this,"已复制作者微信号~",Toast.LENGTH_LONG).show()
+            contact.postDelayed({contact.isClickable=true},500)
         }
 
     }

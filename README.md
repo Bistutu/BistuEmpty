@@ -27,9 +27,9 @@ Bistutu空教室查询
 
 ```
 1. Gradle 开发框架
-3. okhttp3 网络请求
-4. Gson JSON数据解析
-5. QMUI 界面设计
+2. okhttp3 网络请求
+3. Gson JSON数据解析
+4. QMUI 界面框架
 ```
 
 ## 服务器端使用到的第三方库
