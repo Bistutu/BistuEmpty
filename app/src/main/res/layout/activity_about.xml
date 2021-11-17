@@ -16,7 +16,7 @@
             android:layout_height="match_parent"
             android:drawableLeft="@drawable/ic_baseline_keyboard_backspace_24"
             android:background="@drawable/about_back_selector"
-            android:layout_marginLeft="10dp">
+            android:paddingLeft="10dp">
         </Button>
         <TextView
             android:layout_width="0dp"
