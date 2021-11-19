@@ -10,6 +10,6 @@ object okhttp_model {
             .url(url)
             .build()
         val response = okhttp.newCall(request).execute()
-        return response.body()?.string()
+        return response.body?.string()
     }
 }
