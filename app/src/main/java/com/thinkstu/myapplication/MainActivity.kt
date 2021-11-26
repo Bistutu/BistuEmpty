@@ -67,6 +67,7 @@ class MainActivity : AppCompatActivity() {
                 Messages.emitLong(this, "请选择一个时段")
                 return@setOnClickListener
             }
+
             /* 创建三个提示的dialog，分别是-1.正在查询-2.查询成功-3.查询失败*/
             val (loadGo, loadSuccess, loadFaile) = triple_dialog()
             // 设置当点击Dialog外时可以取消Dialog
@@ -94,6 +95,9 @@ class MainActivity : AppCompatActivity() {
                     3 -> timeString = "晚上"
                 }
                 // infoMessages为查询的提示字段
+/*  2021.11.26晚，暂未完
+                btSearch.isClickable = false
+                btSearch.setBackgroundResource(R.drawable.ellipse_button_initial)*/
                 var infoMessages =
                     "你所查询的日期为：" + month + "月" + day + "日" + "(" + weekString + ")  " + timeString
                 /* 如果responseData不为空,则证明本地存在数据，无需服务器请求数据*/
@@ -137,14 +141,6 @@ class MainActivity : AppCompatActivity() {
             weekDay = gregorianCalendar.get(Calendar.DAY_OF_WEEK) - 1
             month = gregorianCalendar.get(Calendar.MONTH) + 1
             responseData = null
-            btSearch.setBackgroundResource(R.drawable.ellipse_button_initial)
-            btSearch.text = "正在加载中..."
-            btSearch.isClickable = false
-            btSearch.postDelayed({
-                btSearch.setBackgroundResource(R.drawable.button_selected)
-                btSearch.text = "查询空教室"
-                btSearch.isClickable = true
-            }, 200)
             // reemit()是重新发送了一次网络请求
             reemit();
         }
@@ -176,14 +172,6 @@ class MainActivity : AppCompatActivity() {
                 }
             }
             responseData = null
-            btSearch.setBackgroundResource(R.drawable.ellipse_button_initial)
-            btSearch.text = "正在加载..."
-            btSearch.isClickable = false
-            btSearch.postDelayed({
-                btSearch.setBackgroundResource(R.drawable.button_selected)
-                btSearch.text = "查询空教室"
-                btSearch.isClickable = true
-            }, 200)
             reemit()
         }
         afterTomorrow.setOnClickListener {
@@ -226,14 +214,13 @@ class MainActivity : AppCompatActivity() {
                 }
             }
             responseData = null
-            btSearch.setBackgroundResource(R.drawable.ellipse_button_initial)
-            btSearch.text = "正在加载中..."
+/* 保留的一些操作，之后或许有用
+ btSearch.setBackgroundResource(R.drawable.ellipse_button_initial)
             btSearch.isClickable = false
             btSearch.postDelayed({
                 btSearch.setBackgroundResource(R.drawable.button_selected)
-                btSearch.text = "查询空教室"
                 btSearch.isClickable = true
-            }, 200)
+            }, 100)*/
             reemit()
         }
     }
