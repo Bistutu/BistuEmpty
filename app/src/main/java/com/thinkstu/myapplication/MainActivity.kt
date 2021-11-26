@@ -143,7 +143,7 @@ class MainActivity : AppCompatActivity() {
                 btSearch.setBackgroundResource(R.drawable.button_selected)
                 btSearch.text = "查询空教室"
                 btSearch.isClickable = true
-            }, 500)
+            }, 200)
             // reemit()是重新发送了一次网络请求
             reemit();
         }
@@ -176,13 +176,13 @@ class MainActivity : AppCompatActivity() {
             }
             responseData = null
             btSearch.setBackgroundResource(R.drawable.ellipse_button_initial)
-            btSearch.text = "正在加载中..."
+            btSearch.text = "正在加载..."
             btSearch.isClickable = false
             btSearch.postDelayed({
                 btSearch.setBackgroundResource(R.drawable.button_selected)
                 btSearch.text = "查询空教室"
                 btSearch.isClickable = true
-            }, 500)
+            }, 200)
             reemit()
         }
         afterTomorrow.setOnClickListener {
@@ -232,7 +232,7 @@ class MainActivity : AppCompatActivity() {
                 btSearch.setBackgroundResource(R.drawable.button_selected)
                 btSearch.text = "查询空教室"
                 btSearch.isClickable = true
-            }, 500)
+            }, 200)
             reemit()
         }
     }
