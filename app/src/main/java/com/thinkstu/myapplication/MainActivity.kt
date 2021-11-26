@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.*
 import android.widget.Toast
+import androidx.annotation.UiThread
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
@@ -438,6 +439,10 @@ class MainActivity : AppCompatActivity() {
                         } else
                             updateDialog(updateData, 0)
                     } catch (e: Exception) {
+                       // 这里是发送网络的子线程
+                        runOnUiThread{
+                            Messages.emitLong(this, "好像没有网络唉~")
+                        }
                     }
                 }
             }
