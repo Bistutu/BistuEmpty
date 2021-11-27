@@ -41,6 +41,12 @@ class MainActivity : AppCompatActivity() {
                 // 不执行任何操作
             }
         }
+        /* 创建三个提示的dialog，分别是-1.正在查询-2.查询成功-3.查询失败*/
+        val (loadGo, loadSuccess, loadFaile) = triple_dialog()
+        // 设置当点击Dialog外时可以取消Dialog
+        loadSuccess.setCanceledOnTouchOutside(true)
+        loadFaile.setCanceledOnTouchOutside(true)
+        loadGo.setCanceledOnTouchOutside(true)
         // 设置recyclerView的缓存大小为200条记录
         recyclerView.setItemViewCacheSize(200);
         // SharedPreferences存储一些信息,这里用来设置每次打开软件时默认选择的校区
@@ -57,20 +63,24 @@ class MainActivity : AppCompatActivity() {
         // 校区选择
         xq_selector(items, editor)
         // 日期选择
-        date_selector(editor,prefs)
-        // 按下查询按钮
+        date_selector(data_day_1, data_day_2, data_day_3)
+        // 查询按钮事件
+        selector(editor, prefs, loadGo, loadSuccess, loadFaile)
+    }
+
+    private fun selector(
+        editor: SharedPreferences.Editor,
+        prefs: SharedPreferences,
+        loadGo: QMUITipDialog,
+        loadSuccess: QMUITipDialog,
+        loadFaile: QMUITipDialog
+    ) {
         btSearch.setOnClickListener {
             //如果用户没有选择一个时段time，这里就会发出一个警告
             if (time == -1) {
                 Messages.emitLong(this, "请选择一个时段")
                 return@setOnClickListener
             }
-            /* 创建三个提示的dialog，分别是-1.正在查询-2.查询成功-3.查询失败*/
-            val (loadGo, loadSuccess, loadFaile) = triple_dialog()
-            // 设置当点击Dialog外时可以取消Dialog
-            loadSuccess.setCanceledOnTouchOutside(true)
-            loadFaile.setCanceledOnTouchOutside(true)
-            loadGo.setCanceledOnTouchOutside(true)
             // 启动-正在查询-的Dialog
             loadGo.show()
             try {
@@ -97,13 +107,12 @@ class MainActivity : AppCompatActivity() {
                         try {
                             // keyUrl是关键的URL片段
                             var keyUrl: String = "" + xq + "/" + xq + month + day
-                            var url: String =
-                                "https://www.thinkstu.com/" + keyUrl + ".json"
+                            var url: String = "https://www.thinkstu.com/" + keyUrl + ".json"
                             responseData = okhttp_model.send(url).toString()
-                            // SharePreferens存储数据
-                            if(prefs.getString(day.toString(),"0").equals("0")){
-                                editor.putString(day.toString(),responseData)
+                            if(day==DAY){
+                                data_day_1=responseData
                             }
+                            editor.putString(day.toString(), responseData)
                             date.text = infoMessages
                             play(loadGo, loadSuccess)
                         } catch (e: Exception) {
@@ -120,18 +129,17 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
-    /* onCreate()方法结束*/
 
     /* 日期选择器，在这里的话，存在跨年查询失败的Bug，未修改
     *  另外，每当用户点击点击此Button时，会自动发起一个查询的网络请求，目的是为了优化用户体验、获得最快的响应速度
     * */
-    private fun date_selector(editor: SharedPreferences.Editor, prefs: SharedPreferences) {
+    private fun date_selector(data_day_1: String?, data_day_2: String?, data_day_3: String?) {
         today.setOnClickListener {
             day = DAY
             weekDay = WEEKDAT
             month = MONTH
-            // 按钮延迟响应
             delayReaction()
+            noReemit()
         }
         tomorrow.setOnClickListener {
             weekDay = WEEKDAT + 1
@@ -161,6 +169,7 @@ class MainActivity : AppCompatActivity() {
                 }
             }
             delayReaction()
+            noReemit()
         }
         afterTomorrow.setOnClickListener {
             weekDay = (WEEKDAT + 2) % 7
@@ -202,7 +211,29 @@ class MainActivity : AppCompatActivity() {
                 }
             }
             delayReaction()
+            noReemit()
         }
+    }
+
+    private fun noReemit() {
+        when (day) {
+            DAY -> if (data_day_1 == null) {
+                reemit(1)
+            } else {
+                responseData = data_day_1
+            }
+            (DAY + 1) -> if (data_day_2 == null) {
+                reemit(2)
+            } else {
+                responseData = data_day_2
+            }
+            (DAY + 2) -> if (data_day_3 == null) {
+                reemit(3)
+            } else {
+                responseData = data_day_3
+            }
+        }
+
     }
 
     // delayReaction是查询按钮的延迟事件，主要是对UI的优化
@@ -216,16 +247,20 @@ class MainActivity : AppCompatActivity() {
             btSearch.isClickable = true
             btSearch.text = "查询空教室"
         }, 500)
-        reemit()
     }
 
     // 重新发送网络请求
-    private fun reemit() {
+    private fun reemit(i: Int) {
         thread {
             try {
                 var keyUrl: String = "" + xq + "/" + xq + month + day
                 var url: String = "https://www.thinkstu.com/" + keyUrl + ".json"
                 responseData = okhttp_model.send(url).toString()
+                when(i){
+                    1->data_day_1=responseData
+                    2->data_day_2=responseData
+                    3->data_day_3=responseData
+                }
             } catch (e: Exception) {// 失败不进行任何操作
             }
         }
@@ -236,6 +271,9 @@ class MainActivity : AppCompatActivity() {
         items: Array<String>, editor: SharedPreferences.Editor
     ) {
         xq_selector.setOnClickListener {
+            data_day_1=null
+            data_day_2=null
+            data_day_3=null
             MenuDialogBuilder(this)
                 .addItems(items) { dialog, which ->
                     Messages.emitShort(this, "你选择了 " + items[which])
@@ -244,7 +282,6 @@ class MainActivity : AppCompatActivity() {
                     editor.putInt("campus", which)
                     editor.apply()
                     responseData = null
-                    reemit();
                     dialog.dismiss()
                 }
                 .show()
@@ -497,6 +534,10 @@ class MainActivity : AppCompatActivity() {
 
     var responseData: String? = null
 
+    // 三个临时变量存放获取到的数据，以空间来换取"时间+服务器负载减轻"
+    var data_day_1: String? = null
+    var data_day_2: String? = null
+    var data_day_3: String? = null
     //定义一个xy_selector的辅助变量
     var xy_select = 0
 }/*  程序结束  */
