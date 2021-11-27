@@ -7,8 +7,6 @@ import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.*
-import android.widget.Toast
-import androidx.annotation.UiThread
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
@@ -34,8 +32,7 @@ class MainActivity : AppCompatActivity() {
                 val updateData = gson.fromJson(isUpdateJSON, updateObject::class.java)
                 // 获取用户的现在软件版本号
                 val manager = this.getPackageManager();
-                val versionNumber =
-                    manager.getPackageInfo(this.getPackageName(), 0).versionName + ""
+                val versionNumber = manager.getPackageInfo(this.getPackageName(), 0).versionName + ""
                 // 与最新版本号对比，判断是否需要更新？
                 if (!updateData.isUpdate.equals(versionNumber)) {
                     updateDialog(updateData, 1)
@@ -44,30 +41,30 @@ class MainActivity : AppCompatActivity() {
                 // 不执行任何操作
             }
         }
-        // 用SharedPreferences来存储一下一些信息,这里用来设置每次打开软件时默认选择的校区
+        // 设置recyclerView的缓存大小为200条记录
+        recyclerView.setItemViewCacheSize(200);
+        // SharedPreferences存储一些信息,这里用来设置每次打开软件时默认选择的校区
         val editor = getPreferences(MODE_PRIVATE).edit()
         val prefs = getPreferences(MODE_PRIVATE)
         // 设置第一次打开软件时默认选择的校区是”小营校区“，xq是（校区）的缩写
         xq = prefs.getInt("campus", 1) + 1
-        xq_selector.text = items[xq - 1]
-        //xy_selector默认选择
+        xq_selector.text = items[xq - 1] //xy_selector默认选择
         xy_select = prefs.getInt("xy_select", 0)
         // 默认行为，设置每次打开软件都会默认选择 “今天”  和  “全天”
         defaultSelected()
-        // 时段选择器CheckButton的选择行为
+        // 时段选择
         time = fourCheckAction()
-        //校区选择Button事件
+        // 校区选择
         xq_selector(items, editor)
-        //日期选择事件
-        date_selector()
-        //按下查询按钮
+        // 日期选择
+        date_selector(editor,prefs)
+        // 按下查询按钮
         btSearch.setOnClickListener {
-            //如果用户没有选择一个时段（time），这里就会发出一个警告
+            //如果用户没有选择一个时段time，这里就会发出一个警告
             if (time == -1) {
                 Messages.emitLong(this, "请选择一个时段")
                 return@setOnClickListener
             }
-
             /* 创建三个提示的dialog，分别是-1.正在查询-2.查询成功-3.查询失败*/
             val (loadGo, loadSuccess, loadFaile) = triple_dialog()
             // 设置当点击Dialog外时可以取消Dialog
@@ -78,34 +75,24 @@ class MainActivity : AppCompatActivity() {
             loadGo.show()
             try {
                 when (weekDay) {
-                    1 -> weekString = "星期一"
-                    2 -> weekString = "星期二"
-                    3 -> weekString = "星期三"
-                    4 -> weekString = "星期四"
-                    5 -> weekString = "星期五"
-                    6 -> weekString = "星期六"
+                    1 -> weekString = "星期一";2 -> weekString = "星期二";3 -> weekString = "星期三"
+                    4 -> weekString = "星期四";5 -> weekString = "星期五";6 -> weekString = "星期六"
                     0, 7 -> weekString = "星期日"
                 }
                 // 判断时段
                 var timeString = ""
                 when (time) {
-                    0 -> timeString = "全天"
-                    1 -> timeString = "上午"
-                    2 -> timeString = "下午"
-                    3 -> timeString = "晚上"
+                    0 -> timeString = "全天";1 -> timeString = "上午"
+                    2 -> timeString = "下午";3 -> timeString = "晚上"
                 }
                 // infoMessages为查询的提示字段
-/*  2021.11.26晚，暂未完
-                btSearch.isClickable = false
-                btSearch.setBackgroundResource(R.drawable.ellipse_button_initial)*/
-                var infoMessages =
-                    "你所查询的日期为：" + month + "月" + day + "日" + "(" + weekString + ")  " + timeString
+                var infoMessages = "你所查询的日期为：" + month + "月" + day + "日" + "(" + weekString + ")  " + timeString
                 /* 如果responseData不为空,则证明本地存在数据，无需服务器请求数据*/
                 if (responseData != null) {
                     date.text = infoMessages
                     play(loadGo, loadSuccess)
                 } else {
-                    // responseData为空时，需要向服务器请求数据（开启线程）
+                    // responseData为空时，需要向服务器请求数据
                     thread {
                         try {
                             // keyUrl是关键的URL片段
@@ -113,10 +100,14 @@ class MainActivity : AppCompatActivity() {
                             var url: String =
                                 "https://www.thinkstu.com/" + keyUrl + ".json"
                             responseData = okhttp_model.send(url).toString()
+                            // SharePreferens存储数据
+                            if(prefs.getString(day.toString(),"0").equals("0")){
+                                editor.putString(day.toString(),responseData)
+                            }
                             date.text = infoMessages
                             play(loadGo, loadSuccess)
                         } catch (e: Exception) {
-                            // 当请求失败时，向用户发出错误提示
+                            // 请求失败时，向用户发出错误提示
                             btSearch.postDelayed(
                                 Runnable { loadGo.dismiss();loadFaile.show() }, 1000
                             )
@@ -132,22 +123,20 @@ class MainActivity : AppCompatActivity() {
     /* onCreate()方法结束*/
 
     /* 日期选择器，在这里的话，存在跨年查询失败的Bug，未修改
-    *  另外，每当用户点击点击此Button时，会自动发起一个查询的网络请求，这是我为了优化查询数据而作出的决定
+    *  另外，每当用户点击点击此Button时，会自动发起一个查询的网络请求，目的是为了优化用户体验、获得最快的响应速度
     * */
-    private fun date_selector() {
+    private fun date_selector(editor: SharedPreferences.Editor, prefs: SharedPreferences) {
         today.setOnClickListener {
-            day = gregorianCalendar.get(Calendar.DAY_OF_MONTH)
-            //判断星期几
-            weekDay = gregorianCalendar.get(Calendar.DAY_OF_WEEK) - 1
-            month = gregorianCalendar.get(Calendar.MONTH) + 1
-            responseData = null
-            // reemit()是重新发送了一次网络请求
-            reemit();
+            day = DAY
+            weekDay = WEEKDAT
+            month = MONTH
+            // 按钮延迟响应
+            delayReaction()
         }
         tomorrow.setOnClickListener {
-            weekDay = gregorianCalendar.get(Calendar.DAY_OF_WEEK)
-            day = gregorianCalendar.get(Calendar.DAY_OF_MONTH) + 1
-            month = gregorianCalendar.get(Calendar.MONTH) + 1
+            weekDay = WEEKDAT + 1
+            day = DAY + 1
+            month = MONTH
             when (month) {
                 1, 3, 5, 7, 8, 10, 12 -> {
                     if (day == 32) {
@@ -171,13 +160,12 @@ class MainActivity : AppCompatActivity() {
                     }
                 }
             }
-            responseData = null
-            reemit()
+            delayReaction()
         }
         afterTomorrow.setOnClickListener {
-            weekDay = (gregorianCalendar.get(Calendar.DAY_OF_WEEK) + 1) % 7
-            month = gregorianCalendar.get(Calendar.MONTH) + 1
-            day = gregorianCalendar.get(Calendar.DAY_OF_MONTH) + 2
+            weekDay = (WEEKDAT + 2) % 7
+            month = MONTH
+            day = DAY + 2
             when (month) {
                 1, 3, 5, 7, 8, 10, 12 -> {
                     if (day == 32) {
@@ -213,16 +201,22 @@ class MainActivity : AppCompatActivity() {
                     }
                 }
             }
-            responseData = null
-/* 保留的一些操作，之后或许有用
- btSearch.setBackgroundResource(R.drawable.ellipse_button_initial)
-            btSearch.isClickable = false
-            btSearch.postDelayed({
-                btSearch.setBackgroundResource(R.drawable.button_selected)
-                btSearch.isClickable = true
-            }, 100)*/
-            reemit()
+            delayReaction()
         }
+    }
+
+    // delayReaction是查询按钮的延迟事件，主要是对UI的优化
+    private fun delayReaction() {
+        responseData = null
+        btSearch.setBackgroundResource(R.drawable.ellipse_button_initial)
+        btSearch.isClickable = false
+        btSearch.text = "正在加载中..."
+        btSearch.postDelayed({
+            btSearch.setBackgroundResource(R.drawable.button_selected)
+            btSearch.isClickable = true
+            btSearch.text = "查询空教室"
+        }, 500)
+        reemit()
     }
 
     // 重新发送网络请求
@@ -232,7 +226,7 @@ class MainActivity : AppCompatActivity() {
                 var keyUrl: String = "" + xq + "/" + xq + month + day
                 var url: String = "https://www.thinkstu.com/" + keyUrl + ".json"
                 responseData = okhttp_model.send(url).toString()
-            } catch (e: Exception) {
+            } catch (e: Exception) {// 失败不进行任何操作
             }
         }
     }
@@ -350,6 +344,7 @@ class MainActivity : AppCompatActivity() {
             try {
                 btSearch.postDelayed(Runnable { loadGo.dismiss();loadSuccess.show() }, 500)
                 btSearch.postDelayed(Runnable { loadSuccess.dismiss(); }, 1000)
+
                 val list = mutableListOf(empty_list("0", "", "", ""))
                 val emptyList_all = gson.fromJson<List<empty_list>>(responseData, typeOf)
                 for (i in emptyList_all) {
@@ -366,7 +361,6 @@ class MainActivity : AppCompatActivity() {
                         isTime = 0
                     if (isTime != 0) {
                         if (isOneLine != 1) {
-
                             // 这里才是最终的add操作
                             timeList.add(i)
                         }
@@ -374,19 +368,14 @@ class MainActivity : AppCompatActivity() {
                     }
                 }
                 recyclerView.layoutManager = layoutManager
-                // 设置recyclerView的缓存大小为200条记录
-                recyclerView.setItemViewCacheSize(200);
                 val adapter = emptyListAdapter(this, timeList, xq)
                 recyclerView.adapter = adapter
-                //一条小的分割线显现，提升UI体验
+                //一条小的分割线显现，分割画面
                 splitLine.visibility = View.VISIBLE
             } catch (e: Exception) {
-                // 这里是程序已经向服务器请求成功，但是却发生了"意外"的错误的兼容操作，防止程序崩溃。
-                btSearch.postDelayed(Runnable {
-                    loadSuccess.dismiss();
-                    loadGo.dismiss();
-                }, 500)
-                Messages.emitLong(this, "服务器开小差了~")
+                // 这里是程序已经向服务器请求成功，但是却发生了"意外"错误的兼容操作，防止程序崩溃。
+                btSearch.postDelayed(Runnable { loadSuccess.dismiss();loadGo.dismiss(); }, 500)
+                Messages.emitLong(this, "服务器开小差了，开发者正在全力进行修复~")
             }
         }
     }
@@ -413,21 +402,19 @@ class MainActivity : AppCompatActivity() {
                 Messages.emitShort(this, "正在查询中...")
                 thread {
                     try {
-                        val isUpdateJSON =
-                            okhttp_model.send("https://bistutu.github.io/BistutuUpdate/update.json")
+                        val isUpdateJSON = okhttp_model.send("https://bistutu.github.io/BistutuUpdate/update.json")
                         val updateData = gson.fromJson(isUpdateJSON, updateObject::class.java)
                         //获取用户现在的软件版本号
                         val manager = this.getPackageManager();
-                        val versionNumber =
-                            manager.getPackageInfo(this.getPackageName(), 0).versionName + ""
+                        val versionNumber = manager.getPackageInfo(this.getPackageName(), 0).versionName + ""
                         //是否需要更新？
                         if (!updateData.isUpdate.equals(versionNumber)) {
                             updateDialog(updateData, 1)
                         } else
                             updateDialog(updateData, 0)
                     } catch (e: Exception) {
-                       // 这里是发送网络的子线程
-                        runOnUiThread{
+                        // 这里是发送网络的子线程
+                        runOnUiThread {
                             Messages.emitLong(this, "好像没有网络唉~")
                         }
                     }
@@ -447,24 +434,23 @@ class MainActivity : AppCompatActivity() {
                 Messages.emitLong(this, "你的软件已是最新版本~")
                 return@runOnUiThread
             }
-            Toast.makeText(this, "新版本来了~", Toast.LENGTH_SHORT).show()
+            Messages.emitLong(this, "新版本来了~")
             MessageDialogBuilder(this)
-                .setTitle("最新版本")
+                .setTitle("版本介绍")
                 .setMessage(updateData.updateMessage)
                 .setCanceledOnTouchOutside(false)
                 .addAction(
                     "立即更新"
                 ) { dialog, index ->
-                    Messages.emitLong(this,"正在打开下载地址~")
+                    Messages.emitLong(this, "正在打开下载地址~")
                     val intent = Intent(Intent.ACTION_VIEW)
                     intent.data = Uri.parse(updateData.updateUrl)
                     startActivity(intent)
-                }
-                .show()
+                }.show()
         }
     }
 
-    //每次打开软件时的默认选择行为
+    //每次打开软件时的默认行为
     private fun defaultSelected() {
         today.isChecked = true
         allDay.isChecked = true
@@ -472,44 +458,45 @@ class MainActivity : AppCompatActivity() {
         afternoon.isChecked = true
         night.isChecked = true
     }
+
     //三个Dialog，无需更改
     private fun triple_dialog(): Triple<QMUITipDialog, QMUITipDialog, QMUITipDialog> {
         val loadGo =
             QMUITipDialog.Builder(this).setIconType(QMUITipDialog.Builder.ICON_TYPE_LOADING)
-                .setTipWord("正在查询")
-                .create(true)
+                .setTipWord("正在查询...").create(true)
         val loadSuccess =
             QMUITipDialog.Builder(this).setIconType(QMUITipDialog.Builder.ICON_TYPE_SUCCESS)
-                .setTipWord("查询成功")
-                .create(true)
+                .setTipWord("查询成功").create(true)
         val loadFaile =
             QMUITipDialog.Builder(this).setIconType(QMUITipDialog.Builder.ICON_TYPE_FAIL)
-                .setTipWord("查询失败，好像没有网络唉~")
-                .create(true)
+                .setTipWord("查询失败，好像没有网络唉~").create(true)
         return Triple(loadGo, loadSuccess, loadFaile)
     }
 
     // 全局变量的声明
     var time = 0    //时段，0为全天   1为上午    2为下午    3为晚上
-    var xq = 1      //校区，1为小营   2为健翔桥   3为清河    （取自教务网数据）
+    var xq = 1      //校区，1为小营   2为健翔桥   3为清河
     val items = arrayOf("小营校区", "健翔桥校区", "清河校区")    //校区选择按钮的字符串文本
 
     //获取日期的GregorianCalendar
     val gregorianCalendar = GregorianCalendar()
     var month: Int = gregorianCalendar.get(Calendar.MONTH) + 1
     var day: Int = gregorianCalendar.get(Calendar.DAY_OF_MONTH)
+    val MONTH = month
+    val DAY = day
 
     //判断所查询的日期为星期几
     var weekString = ""
     var weekDay: Int = gregorianCalendar.get(Calendar.DAY_OF_WEEK) - 1
+    val WEEKDAT = weekDay
 
-    //创建Gson对象
+    //Gson
     val gson = Gson()
     val typeOf = object : TypeToken<List<empty_list>>() {}.type
     val layoutManager = LinearLayoutManager(this)
 
     var responseData: String? = null
+
     //定义一个xy_selector的辅助变量
     var xy_select = 0
-}
-/*  程序结束  */
+}/*  程序结束  */
