@@ -31,8 +31,8 @@ class MainActivity : AppCompatActivity() {
                 val isUpdateJSON = okhttp_model.send("https://bistutu.github.io/BistutuUpdate/update.json")
                 val updateData = gson.fromJson(isUpdateJSON, updateObject::class.java)
                 // 获取用户的现在软件版本号
-                val manager = this.getPackageManager();
-                val versionNumber = manager.getPackageInfo(this.getPackageName(), 0).versionName + ""
+                val manager = this.packageManager
+                val versionNumber = manager.getPackageInfo(this.packageName, 0).versionName + ""
                 // 与最新版本号对比，判断是否需要更新？
                 if (!updateData.isUpdate.equals(versionNumber)) {
                     updateDialog(updateData, 1)
@@ -48,7 +48,7 @@ class MainActivity : AppCompatActivity() {
         loadFaile.setCanceledOnTouchOutside(true)
         loadGo.setCanceledOnTouchOutside(true)
         // 设置recyclerView的缓存大小为200条记录
-        recyclerView.setItemViewCacheSize(200);
+        recyclerView.setItemViewCacheSize(200)
         // SharedPreferences存储一些信息,这里用来设置每次打开软件时默认选择的校区
         val editor = getPreferences(MODE_PRIVATE).edit()
         val prefs = getPreferences(MODE_PRIVATE)
@@ -445,8 +445,8 @@ class MainActivity : AppCompatActivity() {
                         val isUpdateJSON = okhttp_model.send("https://bistutu.github.io/BistutuUpdate/update.json")
                         val updateData = gson.fromJson(isUpdateJSON, updateObject::class.java)
                         //获取用户现在的软件版本号
-                        val manager = this.getPackageManager();
-                        val versionNumber = manager.getPackageInfo(this.getPackageName(), 0).versionName + ""
+                        val manager = this.packageManager
+                        val versionNumber = manager.getPackageInfo(this.packageName, 0).versionName + ""
                         //是否需要更新？
                         if (!updateData.isUpdate.equals(versionNumber)) {
                             updateDialog(updateData, 1)

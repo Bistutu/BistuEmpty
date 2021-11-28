@@ -21,9 +21,9 @@ class about : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_about)
         //获取软件版本号
-        val manager = this.getPackageManager();
-        val info = manager.getPackageInfo(this.getPackageName(), 0);
-        var version = "软件版本V "+info.versionName;
+        val manager = this.packageManager
+        val info = manager.getPackageInfo(this.packageName, 0)
+        var version = "软件版本V "+info.versionName
         versionTetx.text=version    //软件版本号
 
         back.setOnClickListener {

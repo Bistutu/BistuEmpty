@@ -1,4 +1,3 @@
 package com.thinkstu.myapplication
 
-class Selector {
-}
+class Selector

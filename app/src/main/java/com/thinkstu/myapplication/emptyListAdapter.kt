@@ -11,13 +11,13 @@ import kotlinx.android.synthetic.main.recycler_view_model.view.*
 class emptyListAdapter(val context: Context, val emptyList: List<empty_list>, val xq: Int) :
     RecyclerView.Adapter<emptyListAdapter.ViewHolder>() {
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val cardtv1 = view.cardtv1;
+        val cardtv1 = view.cardtv1
         val cardtv2 = view.cardtv2
-        val cardtv3 = view.cardtv3;
+        val cardtv3 = view.cardtv3
         val cardtv4 = view.cardtv4
-        val mc1 = view.mc1;
+        val mc1 = view.mc1
         val mc2 = view.mc2
-        val mc3 = view.mc3;
+        val mc3 = view.mc3
         val mc4 = view.mc4
     }
 
@@ -34,7 +34,7 @@ class emptyListAdapter(val context: Context, val emptyList: List<empty_list>, va
             holder.mc1.visibility = View.GONE
             holder.mc3.visibility = View.GONE
             holder.mc4.visibility = View.GONE
-            holder.cardtv2.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16F);
+            holder.cardtv2.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16F)
         }
         when(empty.c){
             "0"->holder.mc2.setBackgroundResource(R.color.split0  )
