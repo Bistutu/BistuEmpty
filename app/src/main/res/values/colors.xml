@@ -13,6 +13,6 @@
     <color name="split1">#99FFFF66</color>
     <color name="split2">#9966CCCC</color>
     <color name="btPressColor">#BB6699CC</color>
-    <color name="btPressBorderColor">#BB5599CC</color>
+    <color name="btPressBorderColor">#885599CC</color>
 
 </resources>

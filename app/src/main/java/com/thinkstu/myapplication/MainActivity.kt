@@ -415,7 +415,7 @@ class MainActivity : AppCompatActivity() {
             } catch (e: Exception) {
                 // 这里是程序已经向服务器请求成功，但是却发生了"意外"错误的兼容操作，防止程序崩溃。
                 btSearch.postDelayed(Runnable { loadSuccess.dismiss();loadGo.dismiss(); }, 500)
-                Messages.emitLong(this, "服务器开小差了，开发者正在全力进行修复~")
+                Messages.emitLong(this, "服务器开小差了，请稍后再试~")
             }
         }
     }
@@ -516,7 +516,7 @@ class MainActivity : AppCompatActivity() {
     // 全局变量的声明
     var time = 0    //时段，0为全天   1为上午    2为下午    3为晚上
     var xq = 1      //校区，1为小营   2为健翔桥   3为清河
-    val items = arrayOf("小营校区", "健翔桥校区", "清河校区")    //校区选择按钮的字符串文本
+    val items = arrayOf("小营校区", "健翔桥校区", "清河校区","沙河校区")    //校区选择按钮的字符串文本
 
     //获取日期的GregorianCalendar
     val gregorianCalendar = GregorianCalendar()
