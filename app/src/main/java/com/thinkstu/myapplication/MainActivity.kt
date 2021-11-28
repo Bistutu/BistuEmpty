@@ -109,8 +109,11 @@ class MainActivity : AppCompatActivity() {
                             var keyUrl: String = "" + xq + "/" + xq + month + day
                             var url: String = "https://www.thinkstu.com/" + keyUrl + ".json"
                             responseData = okhttp_model.send(url).toString()
-                            if(day==DAY){
-                                data_day_1=responseData
+                            // 修复
+                            when(day){
+                                DAY->data_day_1=responseData
+                                (DAY+1)->data_day_2=responseData
+                                (DAY+2)->data_day_3=responseData
                             }
                             editor.putString(day.toString(), responseData)
                             date.text = infoMessages
