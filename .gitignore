@@ -14,3 +14,6 @@
 .cxx
 local.properties
 .DS_Store
+
+#屏蔽安装包的上传
+/app/release

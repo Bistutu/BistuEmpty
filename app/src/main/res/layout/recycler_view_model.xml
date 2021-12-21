@@ -23,7 +23,8 @@
             android:textSize="15sp"
             android:layout_margin="3dp"
             android:gravity="center_vertical|center"
-            android:padding="4dp">
+            android:padding="4dp"
+            android:textColor="?android:attr/textColorPrimary">
         </TextView>
     </com.google.android.material.card.MaterialCardView>
     <com.google.android.material.card.MaterialCardView
@@ -45,7 +46,8 @@
             android:textSize="15sp"
             android:layout_margin="3dp"
             android:gravity="center_vertical|center"
-            android:padding="4dp">
+            android:padding="4dp"
+            android:textColor="?android:attr/textColorPrimary">
         </TextView>
     </com.google.android.material.card.MaterialCardView>
     <com.google.android.material.card.MaterialCardView
@@ -67,7 +69,8 @@
             android:textSize="15sp"
             android:layout_margin="3dp"
             android:gravity="center_vertical|center"
-            android:padding="4dp">
+            android:padding="4dp"
+            android:textColor="?android:attr/textColorPrimary">
         </TextView>
     </com.google.android.material.card.MaterialCardView>
     <com.google.android.material.card.MaterialCardView
@@ -89,7 +92,8 @@
             android:textSize="15sp"
             android:layout_margin="3dp"
             android:gravity="center_vertical|center"
-            android:padding="4dp">
+            android:padding="4dp"
+            android:textColor="?android:attr/textColorPrimary">
         </TextView>
     </com.google.android.material.card.MaterialCardView>
 </LinearLayout>

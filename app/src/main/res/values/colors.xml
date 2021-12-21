@@ -14,5 +14,9 @@
     <color name="split2">#9966CCCC</color>
     <color name="btPressColor">#BB6699CC</color>
     <color name="btPressBorderColor">#885599CC</color>
-
+    <!---->
+    <color name="colorPrimary">@color/black</color>
+    <color name="colorPrimaryVariant">@color/purple_700</color>
+    <color name="colorOnPrimary">@color/white</color>>
+    <!--多色模式-->
 </resources>

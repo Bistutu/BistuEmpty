@@ -31,8 +31,8 @@
             android:layout_height="match_parent"
             android:gravity="center_vertical"
             android:text="校区："
-            android:textColor="@color/black"
-            android:textSize="16sp"></TextView>
+            android:textSize="16sp"
+            android:textColor="?android:attr/textColorPrimary"></TextView>
 
         <Button
             android:id="@+id/xq_selector"
@@ -42,7 +42,8 @@
             android:drawableRight="@drawable/ic_baseline_keyboard_arrow_down_24"
             android:gravity="center|center_vertical"
             android:paddingLeft="10dp"
-            android:text="小营校区"></Button>
+            android:text="小营校区"
+            ></Button>
         <TextView
             android:layout_width="0dp"
             android:layout_height="match_parent"
@@ -66,8 +67,8 @@
             android:layout_height="match_parent"
             android:gravity="center_vertical"
             android:text="日期："
-            android:textColor="@color/black"
-            android:textSize="16sp"></TextView>
+            android:textSize="16sp"
+            android:textColor="?android:attr/textColorPrimary"></TextView>
 
         <RadioGroup
             android:layout_width="match_parent"
@@ -110,7 +111,7 @@
             android:layout_height="match_parent"
             android:gravity="center_vertical|center"
             android:text="时段："
-            android:textColor="@color/black"
+            android:textColor="?android:attr/textColorPrimary"
             android:textSize="16sp"></TextView>
 
         <CheckBox
@@ -164,14 +165,16 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:layout_marginBottom="0dp"
-        android:textSize="14sp"></TextView>
+        android:textSize="14sp"
+        android:textColor="?android:attr/textColorPrimary"></TextView>
     <TextView
         android:id="@+id/splitLine"
         android:layout_width="match_parent"
         android:layout_height="1.5dp"
         android:layout_marginTop="0dp"
         android:visibility="invisible"
-        android:background="@drawable/about_border"></TextView>
+        android:background="@drawable/about_border"
+        android:textColor="?android:attr/textColorPrimary"></TextView>
     <!--空教室数据的RecyclerView主体-->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
