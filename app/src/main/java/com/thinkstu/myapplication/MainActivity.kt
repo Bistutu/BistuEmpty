@@ -67,6 +67,7 @@ class MainActivity : AppCompatActivity() {
         // 查询按钮事件
         selector(editor, prefs, loadGo, loadSuccess, loadFaile)
     }
+/*       onCreate()结束      */
 
     private fun selector(
         editor: SharedPreferences.Editor,
@@ -109,17 +110,16 @@ class MainActivity : AppCompatActivity() {
                             var keyUrl: String = "" + xq + "/" + xq + month + day
                             var url: String = "https://www.thinkstu.com/" + keyUrl + ".json"
                             responseData = okhttp_model.send(url).toString()
-                            // 修复
-                            when(day){
-                                DAY->data_day_1=responseData
-                                (DAY+1)->data_day_2=responseData
-                                (DAY+2)->data_day_3=responseData
+                            when {
+                                day == DAY -> data_day_1 = responseData
+                                day == (DAY + 1) || (tomorrow.isChecked && day == 1) -> data_day_2 = responseData
+                                day == (DAY + 2) || (afterTomorrow.isChecked && (day == 1 || day == 2)) -> data_day_3 =
+                                    responseData
                             }
-                            editor.putString(day.toString(), responseData)
                             date.text = infoMessages
                             play(loadGo, loadSuccess)
                         } catch (e: Exception) {
-                            // 请求失败时，向用户发出错误提示
+                            // 请求失败时，向用户发出错误提示m
                             btSearch.postDelayed(
                                 Runnable { loadGo.dismiss();loadFaile.show() }, 1000
                             )
@@ -133,8 +133,8 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    /* 日期选择器，在这里的话，存在跨年查询失败的Bug，未修改
-    *  另外，每当用户点击点击此Button时，会自动发起一个查询的网络请求，目的是为了优化用户体验、获得最快的响应速度
+    /*
+    *每当用户点击点击该Button时，会自动发起一个查询的网络请求，目的是为了优化用户体验、获得最快的响应速度
     * */
     private fun date_selector(data_day_1: String?, data_day_2: String?, data_day_3: String?) {
         today.setOnClickListener {
@@ -170,6 +170,9 @@ class MainActivity : AppCompatActivity() {
                         day = 1;month += 1
                     }
                 }
+            }
+            if (month == 13) {
+                month = 1
             }
             delayReaction()
             noReemit()
@@ -213,30 +216,34 @@ class MainActivity : AppCompatActivity() {
                     }
                 }
             }
+            if (month == 13) {
+                month = 1
+            }
             delayReaction()
             noReemit()
         }
     }
 
     private fun noReemit() {
-        when (day) {
-            DAY -> if (data_day_1 == null) {
+        when {
+            day == DAY -> if (data_day_1 == null) {
                 reemit(1)
             } else {
                 responseData = data_day_1
             }
-            (DAY + 1) -> if (data_day_2 == null) {
-                reemit(2)
-            } else {
-                responseData = data_day_2
-            }
-            (DAY + 2) -> if (data_day_3 == null) {
-                reemit(3)
-            } else {
-                responseData = data_day_3
-            }
+            day == (DAY + 1) || (tomorrow.isChecked && day == 1) ->
+                if (data_day_2 == null) {
+                    reemit(2)
+                } else {
+                    responseData = data_day_2
+                }
+            day == (DAY + 2) || (afterTomorrow.isChecked && (day == 2 || day == 1)) ->
+                if (data_day_3 == null) {
+                    reemit(3)
+                } else {
+                    responseData = data_day_3
+                }
         }
-
     }
 
     // delayReaction是查询按钮的延迟事件，主要是对UI的优化
@@ -259,10 +266,10 @@ class MainActivity : AppCompatActivity() {
                 var keyUrl: String = "" + xq + "/" + xq + month + day
                 var url: String = "https://www.thinkstu.com/" + keyUrl + ".json"
                 responseData = okhttp_model.send(url).toString()
-                when(i){
-                    1->data_day_1=responseData
-                    2->data_day_2=responseData
-                    3->data_day_3=responseData
+                when (i) {
+                    1 -> data_day_1 = responseData
+                    2 -> data_day_2 = responseData
+                    3 -> data_day_3 = responseData
                 }
             } catch (e: Exception) {// 失败不进行任何操作
             }
@@ -274,9 +281,9 @@ class MainActivity : AppCompatActivity() {
         items: Array<String>, editor: SharedPreferences.Editor
     ) {
         xq_selector.setOnClickListener {
-            data_day_1=null
-            data_day_2=null
-            data_day_3=null
+            data_day_1 = null
+            data_day_2 = null
+            data_day_3 = null
             MenuDialogBuilder(this)
                 .addItems(items) { dialog, which ->
                     Messages.emitShort(this, "你选择了 " + items[which])
@@ -515,8 +522,8 @@ class MainActivity : AppCompatActivity() {
 
     // 全局变量的声明
     var time = 0    //时段，0为全天   1为上午    2为下午    3为晚上
-    var xq = 1      //校区，1为小营   2为健翔桥   3为清河
-    val items = arrayOf("小营校区", "健翔桥校区", "清河校区","沙河校区")    //校区选择按钮的字符串文本
+    var xq = 1      //校区，1为小营   2为健翔桥   3为清河    4为沙河
+    val items = arrayOf("小营校区", "健翔桥校区", "清河校区", "沙河校区(新)")    //校区文本
 
     //获取日期的GregorianCalendar
     val gregorianCalendar = GregorianCalendar()
@@ -534,13 +541,13 @@ class MainActivity : AppCompatActivity() {
     val gson = Gson()
     val typeOf = object : TypeToken<List<empty_list>>() {}.type
     val layoutManager = LinearLayoutManager(this)
-
     var responseData: String? = null
 
     // 三个临时变量存放获取到的数据，以空间来换取"时间+服务器负载减轻"
     var data_day_1: String? = null
     var data_day_2: String? = null
     var data_day_3: String? = null
+
     //定义一个xy_selector的辅助变量
     var xy_select = 0
 }/*  程序结束  */
