@@ -7,6 +7,11 @@
         android:title="使用指南"
         app:showAsAction="never"></item>
     <item
+        android:id="@+id/darkMode"
+        android:icon="@drawable/ic_baseline_bedtime_24"
+        app:showAsAction="always">
+    </item>
+    <item
         android:id="@+id/line2"
         android:title="检查更新"
         app:showAsAction="never"></item>
@@ -14,5 +19,4 @@
         android:id="@+id/line3"
         android:title="关于"
         app:showAsAction="never"></item>
-
 </menu>

@@ -1,12 +1,15 @@
 package com.thinkstu.myapplication
 
 import android.app.Dialog
+import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
+import android.content.res.Configuration
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.*
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
@@ -25,6 +28,16 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setSupportActionBar(tb1)
+        // SharedPreferences存储一些信息,这里用来设置每次打开软件时默认选择的校区
+        val editor = getPreferences(MODE_PRIVATE).edit()
+        val prefs = getPreferences(MODE_PRIVATE)
+        // 判断用户上次是否选中了深色模式
+            if (isDarkTheme(this)){
+            }else{
+                if (prefs.getInt("Dark", 0) == 1) {
+                runOnUiThread { AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES) }
+            }
+        }
         // 首先发起网络请求，判断软件是否需要更新
         thread {
             try {
@@ -49,9 +62,6 @@ class MainActivity : AppCompatActivity() {
         loadGo.setCanceledOnTouchOutside(true)
         // 设置recyclerView的缓存大小为200条记录
         recyclerView.setItemViewCacheSize(200)
-        // SharedPreferences存储一些信息,这里用来设置每次打开软件时默认选择的校区
-        val editor = getPreferences(MODE_PRIVATE).edit()
-        val prefs = getPreferences(MODE_PRIVATE)
         // 设置第一次打开软件时默认选择的校区是”小营校区“，xq是（校区）的缩写
         xq = prefs.getInt("campus", 1) + 1
         xq_selector.text = items[xq - 1] //xy_selector默认选择
@@ -79,7 +89,7 @@ class MainActivity : AppCompatActivity() {
         btSearch.setOnClickListener {
             //如果用户没有选择一个时段time，这里就会发出一个警告
             if (time == -1) {
-                Messages.emitLong(this, "请选择一个时段")
+                Msg.long(this, "请选择一个时段")
                 return@setOnClickListener
             }
             // 启动-正在查询-的Dialog
@@ -116,8 +126,7 @@ class MainActivity : AppCompatActivity() {
                                 day == (DAY + 2) || (afterTomorrow.isChecked && (day == 1 || day == 2)) -> data_day_3 =
                                     responseData
                             }
-                            date.text = infoMessages
-                            play(loadGo, loadSuccess)
+                            play(loadGo, loadSuccess, infoMessages)
                         } catch (e: Exception) {
                             // 请求失败时，向用户发出错误提示m
                             btSearch.postDelayed(
@@ -286,7 +295,7 @@ class MainActivity : AppCompatActivity() {
             data_day_3 = null
             MenuDialogBuilder(this)
                 .addItems(items) { dialog, which ->
-                    Messages.emitShort(this, "你选择了 " + items[which])
+                    Msg.short(this, "你选择了 " + items[which])
                     xq_selector.text = items[which]
                     xq = which + 1
                     editor.putInt("campus", which)
@@ -386,9 +395,11 @@ class MainActivity : AppCompatActivity() {
     }
 
     // 网络请求成功 ，渲染recyclerView
-    fun play(loadGo: Dialog, loadSuccess: Dialog) {
+    fun play(loadGo: Dialog, loadSuccess: Dialog, infoMessages: String = "") {
         runOnUiThread {
             try {
+                if (!infoMessages.equals(""))
+                    date.text = infoMessages
                 btSearch.postDelayed(Runnable { loadGo.dismiss();loadSuccess.show() }, 500)
                 btSearch.postDelayed(Runnable { loadSuccess.dismiss(); }, 1000)
 
@@ -422,7 +433,7 @@ class MainActivity : AppCompatActivity() {
             } catch (e: Exception) {
                 // 这里是程序已经向服务器请求成功，但是却发生了"意外"错误的兼容操作，防止程序崩溃。
                 btSearch.postDelayed(Runnable { loadSuccess.dismiss();loadGo.dismiss(); }, 500)
-                Messages.emitLong(this, "服务器开小差了，请稍后再试~")
+                Msg.long(this, "服务器开小差了，请稍后再试~")
             }
         }
     }
@@ -446,7 +457,7 @@ class MainActivity : AppCompatActivity() {
                     .show()
             }
             R.id.line2 -> {
-                Messages.emitShort(this, "正在查询中...")
+                Msg.short(this, "正在查询中...")
                 thread {
                     try {
                         val isUpdateJSON = okhttp_model.send("https://bistutu.github.io/BistutuUpdate/update.json")
@@ -462,26 +473,61 @@ class MainActivity : AppCompatActivity() {
                     } catch (e: Exception) {
                         // 这里是发送网络的子线程
                         runOnUiThread {
-                            Messages.emitLong(this, "好像没有网络唉~")
+                            Msg.long(this, "好像没有网络唉~")
                         }
                     }
                 }
             }
+            R.id.darkMode -> {
+                val editor = getPreferences(MODE_PRIVATE).edit()
+                MessageDialogBuilder(this)
+                    .setTitle("模式切换")
+                    .setMessage("\t\t\"深色模式\"可以在黑暗的情况下保护你的眼睛~")
+                    .addAction(
+                        "普通模式"
+                    ) { dialog, index ->
+                        dialog.dismiss()
+                        editor.putInt("Dark", 0)
+                        editor.apply()
+                        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+                        Msg.long(this,"\"普通模式\"已生效~")
+                    }
+                    .addAction(
+                        "深色模式"
+                    ) { dialog, index ->
+                        dialog.dismiss()
+                        if(!isDarkTheme(this)){
+                            editor.putInt("Dark", 1)
+                            editor.apply()
+                            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+                        }
+                        Msg.long(this,"\"深色模式\"已生效~")
+                    }
+                    .show()
+            }
+
             R.id.line3 -> {
                 val intent = Intent(this, about::class.java)
                 startActivity(intent)
             }
         }
+
         return true
+    }
+
+    // 判断系统是否为深色模式
+    fun isDarkTheme(context: Context): Boolean {
+        val flag = context.resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK
+        return flag == Configuration.UI_MODE_NIGHT_YES
     }
 
     private fun updateDialog(updateData: updateObject, judge: Int) {
         runOnUiThread {
             if (judge == 0) {
-                Messages.emitLong(this, "你的软件已是最新版本~")
+                Msg.long(this, "你的软件已是最新版本~")
                 return@runOnUiThread
             }
-            Messages.emitLong(this, "新版本来了~")
+            Msg.long(this, "新版本来了~")
             MessageDialogBuilder(this)
                 .setTitle("版本介绍")
                 .setMessage(updateData.updateMessage)
@@ -489,7 +535,7 @@ class MainActivity : AppCompatActivity() {
                 .addAction(
                     "立即更新"
                 ) { dialog, index ->
-                    Messages.emitLong(this, "正在打开下载地址~")
+                    Msg.long(this, "正在打开下载地址~")
                     val intent = Intent(Intent.ACTION_VIEW)
                     intent.data = Uri.parse(updateData.updateUrl)
                     startActivity(intent)

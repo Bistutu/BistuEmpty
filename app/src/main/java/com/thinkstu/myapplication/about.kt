@@ -1,6 +1,5 @@
 package com.thinkstu.myapplication
 
-import android.app.Notification
 import android.content.ClipboardManager
 import android.content.Context
 import android.content.Intent
@@ -9,11 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_about.*
-import kotlinx.android.synthetic.main.activity_main.*
-import com.qmuiteam.qmui.widget.dialog.QMUIDialog
 import com.qmuiteam.qmui.widget.dialog.QMUIDialog.MessageDialogBuilder
-
-import com.qmuiteam.qmui.widget.dialog.QMUIDialogAction
 
 class about : AppCompatActivity() {
 
@@ -43,7 +38,7 @@ class about : AppCompatActivity() {
                     val intent=Intent(Intent.ACTION_VIEW)
                     intent.data=Uri.parse("https://github.com/Bistutu/BistuEmpty")
                     startActivity(intent)
-                    Messages.emitShort(this,"正在打开github")
+                    Msg.short(this,"正在打开github")
                     }
                 .show()
 
