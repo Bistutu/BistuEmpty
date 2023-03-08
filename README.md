@@ -35,8 +35,7 @@ Bistutu空教室查询
 ## 服务器端使用到的第三方库
 
 ```
-1. Maven 开发框架
-2. fastJSON JSON数据解析
+1. fastJSON JSON数据解析
 ```
 
 ## License

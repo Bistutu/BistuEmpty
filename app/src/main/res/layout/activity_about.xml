@@ -1,115 +1,120 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".about"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    tools:context=".about">
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:background="@color/logoColor">
+
         <Button
             android:id="@+id/back"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:drawableLeft="@drawable/ic_baseline_keyboard_backspace_24"
             android:background="@drawable/about_back_selector"
-            android:paddingLeft="10dp">
-        </Button>
+            android:drawableLeft="@drawable/ic_baseline_keyboard_backspace_24"
+            android:paddingLeft="10dp"></Button>
+
         <TextView
             android:layout_width="0dp"
-            android:layout_weight="1"
             android:layout_height="match_parent"
-            android:text="关于我们"
+            android:layout_weight="1"
             android:gravity="center|center_vertical"
-            android:textSize="18sp"
+            android:text="关于我们"
             android:textColor="@color/white"
-            android:textStyle="bold">
+            android:textSize="18sp"
+            android:textStyle="bold"></TextView>
 
-        </TextView>
         <Button
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:background="#00000000"
-            android:textSize="16sp">
-        </Button>
+            android:textSize="16sp"></Button>
     </LinearLayout>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
         android:orientation="vertical">
+
         <TextView
             android:layout_width="match_parent"
             android:layout_height="300dp"
+            android:gravity="center|center_vertical"
             android:text="空"
-            android:textSize="120sp"
             android:textColor="@color/logoColor"
-            android:gravity="center|center_vertical"></TextView>
+            android:textSize="120sp"></TextView>
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="1.5dp"
             android:background="@drawable/about_border"></TextView>
+
         <Button
             android:id="@+id/github"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@drawable/about_selector"
+            android:drawableRight="@drawable/ic_baseline_keyboard_arrow_right_24"
+            android:gravity="left|center_vertical"
             android:paddingLeft="15dp"
             android:paddingRight="10dp"
-            android:text="Github开源地址"
-            android:textSize="16sp"
-            android:gravity="left|center_vertical"
-            android:drawableRight="@drawable/ic_baseline_keyboard_arrow_right_24"
-            android:background="@drawable/about_selector">
-        </Button>
+            android:text="GitHub 开源地址"
+            android:textSize="16sp"></Button>
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="1.5dp"
             android:background="@drawable/about_border"></TextView>
+
         <Button
             android:id="@+id/update"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@drawable/about_selector"
+            android:drawableRight="@drawable/ic_baseline_keyboard_arrow_right_24"
+            android:gravity="left|center_vertical"
             android:paddingLeft="15dp"
             android:paddingRight="10dp"
             android:text="更新日志"
-            android:textSize="16sp"
-            android:gravity="left|center_vertical"
-            android:drawableRight="@drawable/ic_baseline_keyboard_arrow_right_24"
-            android:background="@drawable/about_selector">
-        </Button>
+            android:textSize="16sp"></Button>
+
         <TextView
             android:layout_width="match_parent"
             android:layout_height="1.5dp"
             android:background="@drawable/about_border"></TextView>
+
         <Button
             android:id="@+id/contact"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@drawable/about_selector"
+            android:drawableRight="@drawable/ic_baseline_keyboard_arrow_right_24"
+            android:gravity="left|center_vertical"
             android:paddingLeft="15dp"
             android:paddingRight="10dp"
             android:text="联系作者"
-            android:textSize="16sp"
-            android:gravity="left|center_vertical"
-            android:drawableRight="@drawable/ic_baseline_keyboard_arrow_right_24"
-            android:background="@drawable/about_selector">
-        </Button>
+            android:textSize="16sp"></Button>
+
         <TextView
             android:layout_width="match_parent"
             android:layout_height="1.5dp"
             android:background="@drawable/about_border"></TextView>
-<TextView
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:text="如果你觉得软件好用，可以分享给更多的小伙伴！"
-    android:textSize="14sp"
-    android:layout_marginTop="10dp"
-    android:gravity="center|center_vertical"
-    android:textColor="#CCCCCC"></TextView>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:gravity="center|center_vertical"
+            android:text="软件完全免费，如果你觉得好用，可以分享给更多的小伙伴！"
+            android:textColor="#CCCCCC"
+            android:textSize="12sp"></TextView>
 
 
     </LinearLayout>
@@ -119,16 +124,17 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:textSize="14sp"
-        android:textColor="#CCCCCC"></TextView>
+        android:textColor="#CCCCCC"
+        android:textSize="14sp"></TextView>
+
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center"
         android:layout_marginBottom="10dp"
+        android:gravity="center"
+        android:text="© 2023 Bistutu All right reserved."
         android:textColor="#CCCCCC"
-        android:textSize="14sp"
-        android:text="© 2021 Bistutu All right reserved.">
+        android:textSize="14sp">
 
     </TextView>
 </LinearLayout>

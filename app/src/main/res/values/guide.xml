@@ -1,4 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="guide">完全免费、无广告。</string>
+    <string name="guide">
+        2021年10月1日，我写下这个软件的第一行代码，4日初步开发完毕。\n\n
+        2021年12月21日，我计划最后一次修改软件代码并发布新版本。\n\n
+        2023年3月，依旧有许多人使用这款软件。\n
+    </string>
 </resources>

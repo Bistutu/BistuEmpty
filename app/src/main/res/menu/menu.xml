@@ -4,7 +4,7 @@
 
     <item
         android:id="@+id/line1"
-        android:title="使用指南"
+        android:title="作者想说"
         app:showAsAction="never"></item>
     <item
         android:id="@+id/darkMode"
@@ -17,6 +17,6 @@
         app:showAsAction="never"></item>
     <item
         android:id="@+id/line3"
-        android:title="关于"
+        android:title="关于我们"
         app:showAsAction="never"></item>
 </menu>

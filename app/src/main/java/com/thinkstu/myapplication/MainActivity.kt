@@ -8,6 +8,7 @@ import android.content.res.Configuration
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -21,7 +22,9 @@ import java.util.*
 import kotlin.collections.ArrayList
 import kotlin.concurrent.thread
 import com.qmuiteam.qmui.widget.dialog.QMUIDialog.*
+import kotlin.math.log
 
+//《第一行代码》
 class MainActivity : AppCompatActivity() {
     // 所有的全局变量均放在了最末尾，所以这里是看不到这些变量的
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -32,9 +35,9 @@ class MainActivity : AppCompatActivity() {
         val editor = getPreferences(MODE_PRIVATE).edit()
         val prefs = getPreferences(MODE_PRIVATE)
         // 判断用户上次是否选中了深色模式
-            if (isDarkTheme(this)){
-            }else{
-                if (prefs.getInt("Dark", 0) == 1) {
+        if (isDarkTheme(this)) {
+        } else {
+            if (prefs.getInt("Dark", 0) == 1) {
                 runOnUiThread { AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES) }
             }
         }
@@ -60,8 +63,8 @@ class MainActivity : AppCompatActivity() {
         loadSuccess.setCanceledOnTouchOutside(true)
         loadFaile.setCanceledOnTouchOutside(true)
         loadGo.setCanceledOnTouchOutside(true)
-        // 设置recyclerView的缓存大小为200条记录
-        recyclerView.setItemViewCacheSize(200)
+        // 设置recyclerView的缓存大小为 512 条记录
+        recyclerView.setItemViewCacheSize(512)
         // 设置第一次打开软件时默认选择的校区是”小营校区“，xq是（校区）的缩写
         xq = prefs.getInt("campus", 1) + 1
         xq_selector.text = items[xq - 1] //xy_selector默认选择
@@ -106,6 +109,7 @@ class MainActivity : AppCompatActivity() {
                     0 -> timeString = "全天";1 -> timeString = "上午"
                     2 -> timeString = "下午";3 -> timeString = "晚上"
                 }
+
                 // infoMessages为查询的提示字段
                 var infoMessages = "你所查询的日期为：" + month + "月" + day + "日" + "(" + weekString + ")  " + timeString
                 /* 如果responseData不为空,则证明本地存在数据，无需服务器请求数据*/
@@ -118,7 +122,7 @@ class MainActivity : AppCompatActivity() {
                         try {
                             // keyUrl是关键的URL片段
                             var keyUrl: String = "" + xq + "/" + xq + month + day
-                            var url: String = "https://www.thinkstu.com/" + keyUrl + ".json"
+                            var url: String = "https://unmeta.cn/" + keyUrl + ".json"
                             responseData = okhttp_model.send(url).toString()
                             when {
                                 day == DAY -> data_day_1 = responseData
@@ -273,7 +277,7 @@ class MainActivity : AppCompatActivity() {
         thread {
             try {
                 var keyUrl: String = "" + xq + "/" + xq + month + day
-                var url: String = "https://www.thinkstu.com/" + keyUrl + ".json"
+                var url: String = "https://unmeta.cn/" + keyUrl + ".json"
                 responseData = okhttp_model.send(url).toString()
                 when (i) {
                     1 -> data_day_1 = responseData
@@ -449,7 +453,7 @@ class MainActivity : AppCompatActivity() {
         when (item.itemId) {
             R.id.line1 -> {
                 MessageDialogBuilder(this)
-                    .setTitle("使用指南")
+                    .setTitle("作者想说")
                     .setMessage(R.string.guide)
                     .addAction(
                         "已阅~"
@@ -490,18 +494,18 @@ class MainActivity : AppCompatActivity() {
                         editor.putInt("Dark", 0)
                         editor.apply()
                         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
-                        Msg.long(this,"\"普通模式\"已生效~")
+                        Msg.long(this, "\"普通模式\"已生效~")
                     }
                     .addAction(
                         "深色模式"
                     ) { dialog, index ->
                         dialog.dismiss()
-                        if(!isDarkTheme(this)){
+                        if (!isDarkTheme(this)) {
                             editor.putInt("Dark", 1)
                             editor.apply()
                             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
                         }
-                        Msg.long(this,"\"深色模式\"已生效~")
+                        Msg.long(this, "\"深色模式\"已生效~")
                     }
                     .show()
             }
@@ -569,7 +573,7 @@ class MainActivity : AppCompatActivity() {
     // 全局变量的声明
     var time = 0    //时段，0为全天   1为上午    2为下午    3为晚上
     var xq = 1      //校区，1为小营   2为健翔桥   3为清河    4为沙河
-    val items = arrayOf("小营校区", "健翔桥校区", "清河校区", "沙河校区(新)")    //校区文本
+    val items = arrayOf("小营校区", "健翔桥校区", "清河校区", "昌平校区")    //校区文本
 
     //获取日期的GregorianCalendar
     val gregorianCalendar = GregorianCalendar()

@@ -4,13 +4,13 @@ plugins {
     id 'kotlin-android-extensions'
 }
 android {
-    compileSdk 30
+    compileSdk 33
     defaultConfig {
-        applicationId "com.thinkstu.myapplication"
+        applicationId "com.thinkstu.www"
         minSdk 21
-        targetSdk 30
-        versionCode 8
-        versionName "2.4"
+        targetSdk 33
+        versionCode 9
+        versionName "2.5"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {

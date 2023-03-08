@@ -4,15 +4,15 @@
     "type": "APK",
     "kind": "Directory"
   },
-  "applicationId": "com.thinkstu.myapplication",
+  "applicationId": "com.thinkstu.www",
   "variantName": "release",
   "elements": [
     {
       "type": "SINGLE",
       "filters": [],
       "attributes": [],
-      "versionCode": 8,
-      "versionName": "2.4",
+      "versionCode": 9,
+      "versionName": "2.5",
       "outputFile": "app-release.apk"
     }
   ],
