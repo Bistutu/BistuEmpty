@@ -26,6 +26,13 @@ import kotlin.math.log
 
 //《第一行代码》
 class MainActivity : AppCompatActivity() {
+//    Kotlin -> Jetbrains
+    // Java
+
+    // 云原生 docker 20MB
+    // JVM 200MB
+
+
     // 所有的全局变量均放在了最末尾，所以这里是看不到这些变量的
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
